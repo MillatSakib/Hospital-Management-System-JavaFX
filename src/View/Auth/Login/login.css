@@ -1,0 +1,26 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+
+}
+
+.rounded-border {
+    
+    -fx-border-width: 2; /* Set border width */
+    -fx-border-radius: 50; /* Set border radius */
+    -fx-background-radius: 50; /* Match the border radius for background */
+    -fx-padding: 10; /* Optional padding to avoid clipping */
+}
+
+.rounded-button {
+    
+    -fx-border-width: 2; /* Set border width */
+    -fx-border-radius: 50; /* Set border radius */
+    -fx-background-radius: 50; /* Match the border radius for background */
+    -fx-padding: 10; /* Optional padding to avoid clipping */
+    -fx-border-color: white;
+    -fx-background-color: none;
+    
+}
