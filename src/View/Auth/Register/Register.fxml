@@ -43,21 +43,21 @@
       </Text>
       <TextField layoutX="125.0" layoutY="292.0" prefHeight="31.0" prefWidth="249.0" promptText="******" styleClass="rounded-border" />
       <CheckBox layoutX="123.0" layoutY="340.0" mnemonicParsing="false" text="Remember Me" textFill="WHITE" />
-      <Button layoutX="122.0" layoutY="364.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="250.0" styleClass="rounded-button" text="Register" textFill="WHITE">
+      <Button layoutX="127.0" layoutY="372.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="250.0" styleClass="rounded-button" text="Register" textFill="WHITE">
          <font>
             <Font name="System Bold" size="16.0" />
          </font></Button>
-      <Text fill="WHITE" layoutX="126.0" layoutY="433.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Don't have an account">
+      <Text fill="WHITE" layoutX="126.0" layoutY="438.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Don't have an account">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Text fill="WHITE" layoutX="271.0" layoutY="433.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Login Now" underline="true">
+      <Text fill="WHITE" layoutX="271.0" layoutY="438.0" onMouseClicked="#handleLogin" strokeType="OUTSIDE" strokeWidth="0.0" text="Login Now" underline="true">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Text fill="WHITE" layoutX="114.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="to 20% Discount!">
+      <Text fill="WHITE" layoutX="114.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="to 20% Discount!">
          <font>
             <Font name="System Bold" size="31.0" />
          </font>

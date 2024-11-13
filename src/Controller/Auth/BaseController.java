@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
+
 package Controller.Auth;
 
 import java.io.IOException;
@@ -13,20 +10,25 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 
-/**
- * FXML Controller class
- *
- * @author Sakib
- */
 public class BaseController implements Initializable {
     @FXML
     private AnchorPane authChangeView;
-    /**
-     * Initializes the controller class.
-     */
+    private static AnchorPane staticAuthChangeView;
+
+    public static void goToRegister() throws Exception {
+        Parent register = FXMLLoader.load(BaseController.class.getResource("/View/Auth/Register/Register.fxml"));
+        staticAuthChangeView.getChildren().setAll(register);
+}
+    
+        public static void goToLogin() throws Exception {
+        Parent register = FXMLLoader.load(BaseController.class.getResource("/View/Auth/Login/Login.fxml"));
+        staticAuthChangeView.getChildren().setAll(register);
+}
+
     @Override
     public void initialize(URL url, ResourceBundle rb)  {
         try{
+        staticAuthChangeView = authChangeView;
         Parent login = FXMLLoader.load(getClass().getResource("/View/Auth/Login/Login.fxml"));
         authChangeView.getChildren().setAll(login);
         }catch(IOException ex){

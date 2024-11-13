@@ -4,8 +4,10 @@
  */
 package Controller.Auth.Register;
 
+import Controller.Auth.BaseController;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 /**
@@ -15,9 +17,10 @@ import javafx.fxml.Initializable;
  */
 public class RegisterController implements Initializable {
 
-    /**
-     * Initializes the controller class.
-     */
+    @FXML
+    private void handleLogin() throws Exception{
+        BaseController.goToLogin();
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO

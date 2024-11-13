@@ -4,8 +4,10 @@
  */
 package Controller.Auth.Login;
 
+import Controller.Auth.BaseController;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 /**
@@ -14,7 +16,10 @@ import javafx.fxml.Initializable;
  * @author Sakib
  */
 public class LoginController implements Initializable {
-
+    @FXML
+    private void handleRegister() throws Exception{
+        BaseController.goToRegister();
+    }
     /**
      * Initializes the controller class.
      */
