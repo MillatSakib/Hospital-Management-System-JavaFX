@@ -36,14 +36,14 @@
             <Font size="14.0" />
          </font>
       </Text>
-      <TextField layoutX="126.0" layoutY="226.0" prefHeight="31.0" prefWidth="249.0" promptText="example@hospital.com" styleClass="rounded-border" />
+      <TextField fx:id="emailField" layoutX="126.0" layoutY="226.0" prefHeight="31.0" prefWidth="249.0" promptText="example@hospital.com" styleClass="rounded-border" />
       <Text fill="WHITE" layoutX="126.0" layoutY="283.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <CheckBox layoutX="123.0" layoutY="340.0" mnemonicParsing="false" text="Remember Me" textFill="WHITE" />
-      <Button layoutX="126.0" layoutY="372.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="249.0" styleClass="rounded-button" text="Login" textFill="WHITE">
+      <CheckBox fx:id="chekStatus" layoutX="123.0" layoutY="340.0" mnemonicParsing="false" text="Remember Me" textFill="WHITE" />
+      <Button layoutX="126.0" layoutY="372.0" mnemonicParsing="false" onAction="#handleLogin" prefHeight="31.0" prefWidth="249.0" styleClass="rounded-button" text="Login" textFill="WHITE">
          <font>
             <Font name="System Bold" size="16.0" />
          </font></Button>
@@ -57,6 +57,6 @@
             <Font size="14.0" />
          </font>
       </Text>
-      <PasswordField layoutX="125.0" layoutY="294.0" prefHeight="31.0" prefWidth="249.0" promptText="******" styleClass="rounded-border" />
+      <PasswordField fx:id="passField" layoutX="125.0" layoutY="294.0" prefHeight="31.0" prefWidth="249.0" promptText="******" styleClass="rounded-border" />
    </children>
 </AnchorPane>
