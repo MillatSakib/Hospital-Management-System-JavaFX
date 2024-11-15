@@ -1,6 +1,7 @@
 package Model;
 
 import Controller.Auth.Login.LoginController;
+import Controller.Auth.Register.RegisterController;
 import Controller.Main;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -50,7 +51,7 @@ public class MYSQLDatabaseOp {
     public void handleQueryLogin(String sqlCommand) throws Exception {
         String dbName = "hospital-manament-system";
         String fullURL = URL + "/" + dbName;
-        UserData userData = null;
+        User userData = null;
         try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); PreparedStatement statement = connection.prepareStatement(sqlCommand)) {
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -60,8 +61,10 @@ public class MYSQLDatabaseOp {
                     String imageURL = resultSet.getString("ImageURL");
                     String email = resultSet.getString("Email");
                     String password = resultSet.getString("Password");
-                    userData = new UserData(id, name, role, imageURL, email, password);
-                    System.out.println(userData.getName()+" "+userData.getRole()+" "+userData.getEmail()+" "+ userData.getPassword()+" "+userData.getImageURL());
+                    String phone = resultSet.getString("Phone");
+                    String age = resultSet.getString("Age");
+                    String gender = resultSet.getString("Gender");
+                    userData = new User(id, name, role, imageURL, email, password, phone, age, gender);
                     
                     //closing the window after successfully login
                     Parent root = FXMLLoader.load(getClass().getResource("/View/DashBoard/DashBoard.fxml"));
@@ -71,8 +74,54 @@ public class MYSQLDatabaseOp {
                     LoginController.setTextOther.setText("Wrong Email or Password");
                 }
             }
-        }
-        
+        } catch (SQLException e) {
+        e.printStackTrace();
+          LoginController.setTextOther.setText("Login Faild! Server Error!");
+        throw new Exception("Error occurred during registration: " + e.getMessage());
     }
+    }
+    
+public void handleRegister(String email, String password) throws Exception {
+    String dbName = "hospital-manament-system";
+    String fullURL = URL + "/" + dbName;
+
+    // I add dynamic query construction for ensuring the prevention from sql injection
+    String sqlCheck = "SELECT COUNT(*) FROM Users WHERE Email = ?";
+    String sqlInsert = "INSERT INTO Users (Email, Password) VALUES (?, ?)";
+
+    try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD);
+         PreparedStatement checkStatement = connection.prepareStatement(sqlCheck);
+         PreparedStatement insertStatement = connection.prepareStatement(sqlInsert)) {
+
+        // Check the email already  has on database or not
+        checkStatement.setString(1, email);
+        ResultSet resultSet = checkStatement.executeQuery();
+
+        if (resultSet.next() && resultSet.getInt(1) > 0) {
+            RegisterController.faildmsgSet.setText("Email already exists.");
+            return;
+        }
+
+        // registration if the email does not exist
+        insertStatement.setString(1, email);
+        insertStatement.setString(2, password);
+        int rowsInserted = insertStatement.executeUpdate();
+
+        if (rowsInserted > 0) {
+                //closing the window after successfully login
+                Parent root = FXMLLoader.load(getClass().getResource("/View/DashBoard/DashBoard.fxml"));
+                Scene change = new Scene(root);
+                Main.stageRef.setScene(change);
+        } else {
+            RegisterController.faildmsgSet.setText("Registration Fainld!");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+         RegisterController.faildmsgSet.setText("Registration Faild! Server Error!");
+        throw new Exception("Error occurred during registration: " + e.getMessage());
+    }
+}
+
+
 
 }

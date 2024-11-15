@@ -26,14 +26,14 @@ public class LoginController implements Initializable {
     private TextField emailField;
     @FXML
     private TextField passField;
-    @FXML
-    private CheckBox chekStatus;
+    
     @FXML
     private Label setText;
     
     public static Label setTextOther;
     @FXML
     private void handleRegister() throws Exception{
+        
         BaseController.goToRegister();
     }
  
@@ -41,6 +41,10 @@ public class LoginController implements Initializable {
     private void handleLogin() throws Exception{
         String email = emailField.getText();
         String pass = passField.getText();
+        if("".equals(email) || "".equals(pass)){
+           setText.setText("Enter Email and Password Properly");
+           return;
+           }
         //System.out.println("SELECT * FROM users where email='"+email+"' AND Password='"+pass+"'");
         MYSQLDatabaseOp dbOp = new MYSQLDatabaseOp();
         dbOp.handleQueryLogin("SELECT * FROM users where email='"+email+"' AND Password='"+pass+"'");
