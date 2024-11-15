@@ -65,9 +65,10 @@ public class MYSQLDatabaseOp {
                     String age = resultSet.getString("Age");
                     String gender = resultSet.getString("Gender");
                     userData = new User(id, name, role, imageURL, email, password, phone, age, gender);
-                    
+                    Main.role = resultSet.getString("Role");
+                    Main.imgURL = resultSet.getString("ImageURL");
                     //closing the window after successfully login
-                    Parent root = FXMLLoader.load(getClass().getResource("/View/DashBoard/DashBoard.fxml"));
+                    Parent root = FXMLLoader.load(getClass().getResource("/View/Patient/BaseUI.fxml"));
                     Scene change = new Scene(root);
                     Main.stageRef.setScene(change);
                 } else {
@@ -109,7 +110,8 @@ public void handleRegister(String email, String password) throws Exception {
 
         if (rowsInserted > 0) {
                 //closing the window after successfully login
-                Parent root = FXMLLoader.load(getClass().getResource("/View/DashBoard/DashBoard.fxml"));
+                Main.role = "user";
+                Parent root = FXMLLoader.load(getClass().getResource("/View/Patient/BaseUI.fxml"));
                 Scene change = new Scene(root);
                 Main.stageRef.setScene(change);
         } else {

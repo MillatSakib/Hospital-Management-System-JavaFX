@@ -7,11 +7,13 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     public static Stage stageRef;
-    
+    public static String role = "";
+    public static String imgURL = "";
     @Override
     
     //database testing
     public void start(Stage primaryStage) throws Exception {
+        
         Parent root = FXMLLoader.load(getClass().getResource("/View/Auth/Base.fxml"));
         Scene scene = new Scene(root);
         primaryStage.setMaxHeight(593);
@@ -25,6 +27,7 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
+        
         launch(args);
     }
     

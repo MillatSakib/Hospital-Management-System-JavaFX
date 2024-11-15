@@ -1,0 +1,15 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+
+}
+.circular-image {
+    -fx-background-radius: 100%; /* Makes the background circular */
+    -fx-border-radius: 100%; /* Applies circular border */
+    -fx-border-color: transparent; /* Optional: No border */
+    -fx-border-width: 0px; /* No border width */
+    /*-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0);*/
+ }
+
