@@ -2,12 +2,13 @@ package Model;
 
 public class UserData {
 
-    private static int ID;
-    private static String Name;
-    private static String Role;
-    private static String ImageURL;
-    private static String Email;
-    private static String Password;
+    protected static int ID;
+    protected static String Name="";
+    protected static String Role="";
+    protected static String ImageURL="";
+    protected static String Email="";
+    protected static String Password="";
+    
 
     UserData(int ID, String Name, String Role, String ImageURL, String Email, String Password) {
         UserData.ID = ID;

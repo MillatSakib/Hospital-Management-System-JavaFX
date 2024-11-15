@@ -9,9 +9,11 @@ import Model.MYSQLDatabaseOp;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 /**
@@ -27,6 +29,10 @@ public class LoginController implements Initializable {
     @FXML
     private CheckBox chekStatus;
     @FXML
+    private Label setText;
+    
+    public static Label setTextOther;
+    @FXML
     private void handleRegister() throws Exception{
         BaseController.goToRegister();
     }
@@ -35,10 +41,15 @@ public class LoginController implements Initializable {
     private void handleLogin() throws Exception{
         String email = emailField.getText();
         String pass = passField.getText();
-        System.out.println("SELECT * FROM users where email='"+email+"' AND Password='"+pass+"'");
+        //System.out.println("SELECT * FROM users where email='"+email+"' AND Password='"+pass+"'");
         MYSQLDatabaseOp dbOp = new MYSQLDatabaseOp();
         dbOp.handleQueryLogin("SELECT * FROM users where email='"+email+"' AND Password='"+pass+"'");
         
+    }
+
+    @FXML
+    private void handleChange(){
+    setText.setText("");
     }
         
     /**
@@ -47,6 +58,7 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        setTextOther=setText;
     }    
     
 }

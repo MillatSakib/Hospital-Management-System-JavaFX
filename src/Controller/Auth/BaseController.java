@@ -24,6 +24,8 @@ public class BaseController implements Initializable {
         Parent register = FXMLLoader.load(BaseController.class.getResource("/View/Auth/Login/Login.fxml"));
         staticAuthChangeView.getChildren().setAll(register);
 }
+        
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb)  {

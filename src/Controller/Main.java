@@ -5,11 +5,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-/**
- * @author Md. Sohan Millat Sakib
- */
-
 public class Main extends Application {
+    public static Stage stageRef;
     
     @Override
     
@@ -24,6 +21,7 @@ public class Main extends Application {
         primaryStage.setTitle("Hospital Management System");
         primaryStage.setScene(scene);
         primaryStage.show();
+        stageRef = primaryStage;
     }
 
     public static void main(String[] args) {
