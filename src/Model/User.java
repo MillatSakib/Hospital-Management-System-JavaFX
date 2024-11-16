@@ -25,6 +25,18 @@ public class User {
         User.Age = Age;
         User.Gender = Gender;
     }
+    
+     public static void resetUser(){
+    ID=0;
+    Name = "";
+    Role = "";
+    ImageURL = "";
+    Email ="";
+    Password = "";
+    Phone = "";
+    Age = "";
+    Gender = "";
+    }
 
     public static int getID() {
         return ID;
@@ -97,5 +109,7 @@ public class User {
     public static void setGender(String Gender) {
         User.Gender = Gender;
     }
+    
+    
 
 }

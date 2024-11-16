@@ -6,6 +6,9 @@ package Controller.Patient;
 
 import Controller.Main;
 import Controller.Patient.Appoinment.AppoinmentController;
+import Model.Admin;
+import Model.Doctor;
+import Model.User;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -34,7 +37,7 @@ public class BaseUIController implements Initializable {
      */
 //    @FXML
 //    private ComboBox<String> specialisDoctors;
-    
+
     @FXML
     private ImageView image;
     @FXML
@@ -68,6 +71,18 @@ public class BaseUIController implements Initializable {
     private void handleLogOut(ActionEvent Event)throws Exception{
     Parent root = FXMLLoader.load(getClass().getResource("/View/Auth/Base.fxml"));
     Scene change = new Scene(root);
+    String Role = Main.role;
+    
+    //After logout reset all Data from software
+    if("doctor".equals(Role)){
+    Doctor.resetDoctor();
+    }
+    else if("admin".equals(Role)){
+        Admin.resetAdmin();
+    }
+    else{
+        User.resetUser();
+    }
     Main.stageRef.setScene(change);
     }
     

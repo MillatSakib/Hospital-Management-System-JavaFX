@@ -14,5 +14,17 @@ public class Admin extends User {
         super(ID, Name, Role, ImageURL, Email, Password, Phone, Age, Gender);
         Admin.Address = Address;
     }
+    public static void resetAdmin(){
+    ID=0;
+    Address = "";
+    Name = "";
+    Role = "";
+    ImageURL ="";
+    Email = "";
+    Password = "";
+    Phone = "";
+    Age = "";
+    Gender = "";
+    }
     
 }

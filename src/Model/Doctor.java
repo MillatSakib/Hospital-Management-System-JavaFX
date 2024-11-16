@@ -21,4 +21,19 @@ public class Doctor extends User {
         Doctor.Address = Address;
     }
     
+     public static void resetDoctor(){
+    ID=0;
+    Name = "";
+    Role = "";
+    ImageURL = "";
+    Email ="";
+    Password = "";
+    Phone = "";
+    Age = "";
+    Gender = "";
+    Specialization = "";
+    DoctorID="";
+    Address="";
+    }
+    
 }
