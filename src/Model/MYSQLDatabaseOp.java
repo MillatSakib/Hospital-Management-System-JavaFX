@@ -88,7 +88,7 @@ public void handleRegister(String email, String password) throws Exception {
 
     // I add dynamic query construction for ensuring the prevention from sql injection
     String sqlCheck = "SELECT COUNT(*) FROM Users WHERE Email = ?";
-    String sqlInsert = "INSERT INTO Users (Email, Password) VALUES (?, ?)";
+    String sqlInsert = "INSERT INTO Users (Email, Password, Role) VALUES (?, ?, ?)";
 
     try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD);
          PreparedStatement checkStatement = connection.prepareStatement(sqlCheck);
@@ -106,6 +106,7 @@ public void handleRegister(String email, String password) throws Exception {
         // registration if the email does not exist
         insertStatement.setString(1, email);
         insertStatement.setString(2, password);
+        insertStatement.setString(3, "user");
         int rowsInserted = insertStatement.executeUpdate();
 
         if (rowsInserted > 0) {
