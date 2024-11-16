@@ -12,20 +12,19 @@
         <URL value="@baseui.css" />
     </stylesheets>
    <children>
-      <AnchorPane layoutX="168.0" layoutY="73.0" mouseTransparent="true" prefHeight="484.0" prefWidth="812.0" style="-fx-background-color: #fcdbc5; -fx-cursor: pointer;" />
       <AnchorPane prefHeight="557.0" prefWidth="173.0" style="-fx-background-color: #FF8300;">
          <children>
-            <Button layoutX="5.0" layoutY="86.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="159.0" style="-fx-background-color: none; -fx-cursor: pointer; -fx-border-color: white; -fx-border-radius: 50px;" text="APOINMENT" textFill="WHITE">
+            <Button layoutX="5.0" layoutY="86.0" mnemonicParsing="false" onAction="#changeSceneAppoinment" prefHeight="52.0" prefWidth="159.0" style="-fx-background-color: none; -fx-cursor: pointer; -fx-border-color: white; -fx-border-radius: 50px;" text="APOINMENT" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
             </Button>
-            <Button layoutX="6.0" layoutY="143.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="159.0" style="-fx-background-color: none; -fx-cursor: pointer; -fx-border-color: white; -fx-border-radius: 50px;" text="PRESCRIPTION" textFill="WHITE">
+            <Button layoutX="6.0" layoutY="143.0" mnemonicParsing="false" onAction="#changeScenePrescription" prefHeight="52.0" prefWidth="159.0" style="-fx-background-color: none; -fx-cursor: pointer; -fx-border-color: white; -fx-border-radius: 50px;" text="PRESCRIPTION" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
             </Button>
-            <Button layoutX="6.0" layoutY="200.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="159.0" style="-fx-background-color: none; -fx-cursor: pointer; -fx-border-color: white; -fx-border-radius: 50px;" text="TAKE BED" textFill="WHITE">
+            <Button layoutX="6.0" layoutY="200.0" mnemonicParsing="false" onAction="#handleSceneTakeBed" prefHeight="52.0" prefWidth="159.0" style="-fx-background-color: none; -fx-cursor: pointer; -fx-border-color: white; -fx-border-radius: 50px;" text="TAKE BED" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
@@ -53,5 +52,6 @@
             <ImageView fx:id="image" fitHeight="52.0" fitWidth="58.0" layoutX="909.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" styleClass="circular-image" />
          </children>
       </AnchorPane>
+      <AnchorPane fx:id="ActiveUI" layoutX="172.0" layoutY="71.0" prefHeight="487.0" prefWidth="806.0" style="-fx-background-color: #fcdbc5;" />
    </children>
 </AnchorPane>

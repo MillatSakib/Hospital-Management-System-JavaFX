@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-package Controller.DashBoard;
+package Controller.Patient.TakeBed;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -13,7 +13,7 @@ import javafx.fxml.Initializable;
  *
  * @author Sakib
  */
-public class DashBoardController implements Initializable {
+public class TakeBedController implements Initializable {
 
     /**
      * Initializes the controller class.

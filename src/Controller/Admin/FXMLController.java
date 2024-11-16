@@ -4,9 +4,14 @@
  */
 package Controller.Admin;
 
+import Controller.Patient.BaseUIController;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 
 /**
  * FXML Controller class
@@ -14,7 +19,17 @@ import javafx.fxml.Initializable;
  * @author Sakib
  */
 public class FXMLController implements Initializable {
+@FXML
+private void changeSceneUpdateRole(ActionEvent e)throws Exception{
+    Parent updateRoleAdmin = FXMLLoader.load(getClass().getResource("/View/Admin/UpdateRole/UpdateRole.fxml"));
+    BaseUIController.ActiveUIRef.getChildren().setAll(updateRoleAdmin);
+}
 
+@FXML
+private void handleRmoveUser(ActionEvent e)throws Exception{
+    Parent updateRoleAdmin = FXMLLoader.load(getClass().getResource("/View/Admin/RemoveUser/RemoveUser.fxml"));
+    BaseUIController.ActiveUIRef.getChildren().setAll(updateRoleAdmin);
+}
     /**
      * Initializes the controller class.
      */

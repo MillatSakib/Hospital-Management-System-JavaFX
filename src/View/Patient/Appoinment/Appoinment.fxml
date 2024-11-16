@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="464.0" prefWidth="812.0" style="-fx-background-color: none;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Patient.Appoinment.AppoinmentController">
+    <stylesheets>
+        <URL value="@appoinment.css" />
+    </stylesheets>
+   <children>
+      <Text layoutX="228.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Book Your Appoinment">
+         <font>
+            <Font name="System Bold" size="32.0" />
+         </font>
+      </Text>
+      <Text layoutX="187.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="problem here:">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
+      <Text layoutX="187.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Write your">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+      <TextArea layoutX="187.0" layoutY="124.0" prefHeight="80.0" prefWidth="194.0" promptText="Explain about your problem." style="-fx-background-color: none;" />
+      <ComboBox fx:id="specialisDoctors" layoutX="413.0" layoutY="124.0" prefWidth="150.0" promptText="Select Specialist">
+        
+    </ComboBox>
+      <Text layoutX="419.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Specialist Doctors">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
+      <Button layoutX="578.0" layoutY="124.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="86.0" text="Search" />
+      <Button layoutX="292.0" layoutY="232.0" mnemonicParsing="false" onAction="#handleButtonClick" text="Button" />
+   </children>
+</AnchorPane>

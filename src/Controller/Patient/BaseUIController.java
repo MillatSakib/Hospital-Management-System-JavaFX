@@ -5,16 +5,19 @@
 package Controller.Patient;
 
 import Controller.Main;
+import Controller.Patient.Appoinment.AppoinmentController;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -29,11 +32,31 @@ public class BaseUIController implements Initializable {
     /**
      * Initializes the controller class.
      */
+//    @FXML
+//    private ComboBox<String> specialisDoctors;
     
     @FXML
     private ImageView image;
     @FXML
+    private AnchorPane ActiveUI;
+    public static AnchorPane ActiveUIRef;
+    @FXML
     private AnchorPane dynamicOption;
+    @FXML
+    private void changeScenePrescription(ActionEvent e)throws Exception{
+    Parent prescription = FXMLLoader.load(getClass().getResource("/View/Patient/Prescriptions/Prescription.fxml"));
+                ActiveUI.getChildren().setAll(prescription);
+    }
+    
+    @FXML
+    private void changeSceneAppoinment(ActionEvent e)throws Exception{
+    appoinment();
+    }
+    @FXML
+    private void handleSceneTakeBed(ActionEvent e)throws Exception{
+    Parent register = FXMLLoader.load(getClass().getResource("/View/Patient/TakeBed/TakeBed.fxml"));
+    ActiveUI.getChildren().setAll(register);
+    }
     public void setImage(String imageUrl) {
         // Create a new Image object with the URL
         Image imagee = new Image(imageUrl);
@@ -57,12 +80,24 @@ public class BaseUIController implements Initializable {
                 dynamicOption.getChildren().setAll(register);
          }
     }
+    
+    public void appoinment()throws Exception{
+    Parent register = FXMLLoader.load(getClass().getResource("/View/Patient/Appoinment/Appoinment.fxml"));
+                ActiveUI.getChildren().setAll(register);
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        ActiveUIRef= ActiveUI;
         String result = (Main.imgURL != null && !"".equals(Main.imgURL)) ? Main.imgURL : "/View/images/person.png";
          setImage(result);
         try {
             addFeature();
+        } catch (Exception ex) {
+            Logger.getLogger(BaseUIController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            appoinment();
         } catch (Exception ex) {
             Logger.getLogger(BaseUIController.class.getName()).log(Level.SEVERE, null, ex);
         }

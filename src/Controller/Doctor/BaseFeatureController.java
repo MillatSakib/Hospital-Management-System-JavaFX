@@ -4,9 +4,14 @@
  */
 package Controller.Doctor;
 
+import Controller.Patient.BaseUIController;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 
 /**
  * FXML Controller class
@@ -14,7 +19,21 @@ import javafx.fxml.Initializable;
  * @author Sakib
  */
 public class BaseFeatureController implements Initializable {
-
+@FXML
+private void handleSceneAllPatients(ActionEvent e)throws Exception{
+Parent updateRoleDoctor = FXMLLoader.load(getClass().getResource("/View/Doctor/AllPatient/AllPatient.fxml"));
+BaseUIController.ActiveUIRef.getChildren().setAll(updateRoleDoctor);
+}
+@FXML
+private void handleSceneAllAppoinment(ActionEvent e)throws Exception{
+Parent updateRoleDoctor = FXMLLoader.load(getClass().getResource("/View/Doctor/Appoinment/AllApoinment.fxml"));
+BaseUIController.ActiveUIRef.getChildren().setAll(updateRoleDoctor);
+}
+@FXML
+private void handleSceneAllPrescription(ActionEvent e)throws Exception{
+Parent updateRoleDoctor = FXMLLoader.load(getClass().getResource("/View/Doctor/GivePrescription/GivePrescription.fxml"));
+BaseUIController.ActiveUIRef.getChildren().setAll(updateRoleDoctor);
+}
     /**
      * Initializes the controller class.
      */
