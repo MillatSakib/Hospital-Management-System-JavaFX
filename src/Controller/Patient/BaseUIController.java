@@ -4,7 +4,6 @@
  */
 package Controller.Patient;
 
-import Controller.Auth.BaseController;
 import Controller.Main;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -53,11 +52,15 @@ public class BaseUIController implements Initializable {
      if("doctor".equals(Main.role)){
              Parent register = FXMLLoader.load(getClass().getResource("/View/Doctor/BaseFeature.fxml"));
                 dynamicOption.getChildren().setAll(register);
+         }else if("admin".equals(Main.role)){
+             Parent register = FXMLLoader.load(getClass().getResource("/View/Admin/FXML.fxml"));
+                dynamicOption.getChildren().setAll(register);
          }
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-         setImage(Main.imgURL);
+        String result = (Main.imgURL != null && !"".equals(Main.imgURL)) ? Main.imgURL : "/View/images/person.png";
+         setImage(result);
         try {
             addFeature();
         } catch (Exception ex) {
