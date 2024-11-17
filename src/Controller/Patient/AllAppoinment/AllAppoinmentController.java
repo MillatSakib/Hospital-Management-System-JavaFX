@@ -43,8 +43,7 @@ public class AllAppoinmentController implements Initializable {
     private TableColumn<AllAppoinment, String> PrescriptionStatus;
     @FXML
     private TableColumn<AllAppoinment, String> contactNumber;
-    
-    ObservableList<AllAppoinment> list = FXCollections.observableArrayList();
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO

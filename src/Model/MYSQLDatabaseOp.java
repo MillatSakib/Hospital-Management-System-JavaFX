@@ -3,6 +3,7 @@ package Model;
 import Controller.Auth.Login.LoginController;
 import Controller.Auth.Register.RegisterController;
 import Controller.Main;
+import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -244,5 +245,63 @@ public class MYSQLDatabaseOp {
         }
         return prescriptionList;
     }
+    
+    
+    public ObservableList<RemoveUserContainer> allUserForRemove(String query) throws SQLException {
+        String dbName = "hospital-manament-system";
+        String fullURL = URL + "/" + dbName;
+        ObservableList<RemoveUserContainer> allUserList = FXCollections.observableArrayList();
+
+        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); PreparedStatement statement = connection.prepareStatement(query); ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                String name = resultSet.getString("Name");
+                String Id = resultSet.getString("ID");
+                String role = resultSet.getString("Role");
+                String contactNumber = resultSet.getString("ContactNumber");
+                
+
+                allUserList.add(new RemoveUserContainer(name, Id, role, contactNumber));
+            }
+
+            if (allUserList.isEmpty()) {
+                Platform.runLater(() -> {
+                    LoginController.setTextOther.setText("Error!! No matching found.");
+                });
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Platform.runLater(() -> {
+                LoginController.setTextOther.setText("Login Failed! Server Error!");
+            });
+            throw new SQLException("Error occurred while fetching doctors: " + e.getMessage(), e);
+        }
+        return allUserList;
+    }
+    
+    
+ public boolean handleRemoveUser(String deleteQuery) throws SQLException {
+    String dbName = "hospital-manament-system";
+    String fullURL = URL + "/" + dbName;
+
+    try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD);
+         Statement statement = connection.createStatement()) {
+        int rowsAffected = statement.executeUpdate(deleteQuery);
+        if (rowsAffected > 0) {
+            return true; 
+        } else {
+            Platform.runLater(() -> {
+                LoginController.setTextOther.setText("No records found to delete.");
+            });
+            return false;
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        Platform.runLater(() -> {
+            LoginController.setTextOther.setText("Error executing delete query.");
+        });
+        throw new SQLException("Error occurred while executing delete query: " + e.getMessage(), e);
+    }
+}
+
 
 }
