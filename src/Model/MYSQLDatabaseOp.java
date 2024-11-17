@@ -362,5 +362,41 @@ public class MYSQLDatabaseOp {
         }
         return appliedDoctor;
     }
+      
+      
+      
+            public ObservableList<AllPatientForDoctor> allPatient(String query) throws SQLException {
+        String dbName = "hospital-manament-system";
+        String fullURL = URL + "/" + dbName;
+        ObservableList<AllPatientForDoctor> allPatient = FXCollections.observableArrayList();
+
+        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); PreparedStatement statement = connection.prepareStatement(query); ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                String name = resultSet.getString("PatientName");
+                String Id = resultSet.getString("PatientID");
+                String email = resultSet.getString("Email");
+                String age = resultSet.getString("Age");
+                String gender = resultSet.getString("Gender");
+                String problem = resultSet.getString("Problem");
+                String prescription = resultSet.getString("Prescription");
+                
+
+                allPatient.add(new AllPatientForDoctor(name, Id, email, gender,age, problem, prescription));
+            }
+
+            if (allPatient.isEmpty()) {
+                Platform.runLater(() -> {
+                    LoginController.setTextOther.setText("Error!! No matching found.");
+                });
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Platform.runLater(() -> {
+                LoginController.setTextOther.setText("Login Failed! Server Error!");
+            });
+            throw new SQLException("Error occurred while fetching doctors: " + e.getMessage(), e);
+        }
+        return allPatient;
+    }
 
 }

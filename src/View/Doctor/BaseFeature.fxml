@@ -10,19 +10,14 @@
         <URL value="@basefeature.css" />
     </stylesheets>
    <children>
-      <Button layoutX="2.0" layoutY="6.0" mnemonicParsing="false" onAction="#handleSceneAllPatients" prefHeight="52.0" prefWidth="159.0" style="-fx-background-color: none; -fx-cursor: pointer; -fx-border-color: white; -fx-border-radius: 50px;" text="All Patients" textFill="WHITE">
+      <Button layoutX="2.0" mnemonicParsing="false" onAction="#handleSceneAllPatients" prefHeight="52.0" prefWidth="159.0" style="-fx-background-color: none; -fx-cursor: pointer; -fx-border-color: white; -fx-border-radius: 50px;" text="All Patients" textFill="WHITE">
          <font>
             <Font name="System Bold" size="17.0" />
          </font>
       </Button>
-      <Button layoutX="3.0" layoutY="63.0" mnemonicParsing="false" onAction="#handleSceneAllAppoinment" prefHeight="52.0" prefWidth="159.0" style="-fx-background-color: none; -fx-cursor: pointer; -fx-border-color: white; -fx-border-radius: 50px;" text="All Apoinment" textFill="WHITE">
+      <Button layoutX="4.0" layoutY="58.0" mnemonicParsing="false" onAction="#handleSceneAllPrescription" prefHeight="52.0" prefWidth="159.0" style="-fx-background-color: none; -fx-cursor: pointer; -fx-border-color: white; -fx-border-radius: 50px;" text="Give Prescription" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="17.0" />
-         </font>
-      </Button>
-      <Button layoutX="4.0" layoutY="122.0" mnemonicParsing="false" onAction="#handleSceneAllPrescription" prefHeight="52.0" prefWidth="159.0" style="-fx-background-color: none; -fx-cursor: pointer; -fx-border-color: white; -fx-border-radius: 50px;" text="All Prescription" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="17.0" />
+            <Font name="System Bold" size="16.0" />
          </font>
       </Button>
    </children>
