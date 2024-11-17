@@ -32,8 +32,13 @@ public class RemoveUserController implements Initializable {
     private void handleRmoveUser(ActionEvent e) {
         RemoveUserContainer selectedUser = removeUserTable.getSelectionModel().getSelectedItem();
         MYSQLDatabaseOp database = new MYSQLDatabaseOp();
+        
+        if(selectedUser == null){
+        Alert alert = new Alert(Alert.AlertType.ERROR, "Please Select an user!", ButtonType.OK);
+        alert.show();
+        return;
+        }
         String ID = selectedUser.getID();
-        System.out.println(ID);
         String query = "DELETE FROM users WHERE ID = '" + ID + "'";
         try {
             boolean deleteUserFlag = database.handleRemoveUser(query);
