@@ -190,7 +190,40 @@ public boolean bookAppointment(String patientName, String doctorName, String pat
     return false;
 }
 
+public ObservableList<AllPrescription> prescriptions(String query) throws SQLException{
+String dbName = "hospital-manament-system";
+    String fullURL = URL + "/" + dbName; 
+    ObservableList<AllPrescription> prescriptionList = FXCollections.observableArrayList();
+    
+    
+        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD);
+         PreparedStatement statement = connection.prepareStatement(query);
+         ResultSet resultSet = statement.executeQuery()) {
+        while (resultSet.next()) {
+            String doctorName = resultSet.getString("DoctorName");
+            String doctorId = resultSet.getString("DoctorID");
+            String problem = resultSet.getString("Problem");
+            String prescription = resultSet.getString("Prescription");
+            
+            prescriptionList.add(new AllPrescription(doctorName, doctorId, problem, prescription));
+        }
 
+        if (prescriptionList.isEmpty()) {
+            Platform.runLater(() -> {
+                LoginController.setTextOther.setText("Error!! No matching doctor found.");
+            });
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        Platform.runLater(() -> {
+            LoginController.setTextOther.setText("Login Failed! Server Error!");
+        });
+        throw new SQLException("Error occurred while fetching doctors: " + e.getMessage(), e);
+    }
+    
+    return prescriptionList;
+    
+}
 
 
 }

@@ -57,8 +57,6 @@ public class AppoinmentController implements Initializable {
             alert.show();
             return;
         }
-        String sqlCommand = "INSERT INTO Appointments (PatientName, DoctorName, PatientID, DoctorID, Problem, Prescription, Visited, GenerateID) "
-                + "VALUES (?, ?, ?, ?, ?, NULL, 0, NULL);";
 
         MYSQLDatabaseOp database = new MYSQLDatabaseOp();
         boolean success = database.bookAppointment(User.getName(), selectedDoctor.nameProperty().get(), User.getID(), selectedDoctor.idProperty().get(), getProblem.getText());

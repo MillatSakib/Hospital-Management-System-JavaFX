@@ -59,7 +59,7 @@ public class BaseUIController implements Initializable {
     }
     @FXML
     private void handleSceneTakeBed(ActionEvent e)throws Exception{
-    Parent register = FXMLLoader.load(getClass().getResource("/View/Patient/TakeBed/TakeBed.fxml"));
+    Parent register = FXMLLoader.load(getClass().getResource("/View/Patient/AllAppoinment/AllAppoinment.fxml"));
     ActiveUI.getChildren().setAll(register);
     }
     public void setImage(String imageUrl) {

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="464.0" prefWidth="812.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Patient.TakeBed.TakeBedController">
+    <stylesheets>
+        <URL value="@takebed.css" />
+    </stylesheets>
+   <children>
+      <Text layoutX="247.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your All Appoinment">
+         <font>
+            <Font name="System Bold" size="32.0" />
+         </font>
+      </Text>
+      <TableView layoutX="22.0" layoutY="94.0" prefHeight="362.0" prefWidth="766.0">
+        <columns>
+          <TableColumn prefWidth="137.0" text="Doctor Name" />
+          <TableColumn prefWidth="126.0" text="Doctor ID" />
+            <TableColumn prefWidth="190.0" text="Your Problem" />
+            <TableColumn prefWidth="175.0" text="Prescription Status" />
+            <TableColumn prefWidth="143.0" text="Contact Number" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>
