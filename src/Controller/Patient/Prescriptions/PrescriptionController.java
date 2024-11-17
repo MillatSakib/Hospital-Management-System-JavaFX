@@ -40,8 +40,6 @@ private TableColumn<AllPrescription, String> yourProblem;
 @FXML
 private TableColumn<AllPrescription, String> doctorPrescription;
 
-    ObservableList<AllPrescription> list = FXCollections.observableArrayList();
-
     /**
      * Initializes the controller class.
      */
