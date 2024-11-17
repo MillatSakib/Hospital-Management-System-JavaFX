@@ -36,7 +36,7 @@
             <Font size="14.0" />
          </font>
       </Text>
-      <TextField fx:id="emailField" layoutX="126.0" layoutY="226.0" onKeyPressed="#handleChange" prefHeight="31.0" prefWidth="249.0" promptText="example@hospital.com" styleClass="rounded-border" />
+      <TextField fx:id="emailField" layoutX="126.0" layoutY="226.0" onKeyPressed="#handleChange" prefHeight="31.0" prefWidth="249.0" promptText="example@hospital.com" styleClass="rounded-border" text="millatsakib01@gmail.com" />
       <Text fill="WHITE" layoutX="126.0" layoutY="283.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
          <font>
             <Font size="14.0" />
@@ -56,7 +56,7 @@
             <Font size="14.0" />
          </font>
       </Text>
-      <PasswordField fx:id="passField" layoutX="125.0" layoutY="294.0" onKeyPressed="#handleChange" prefHeight="31.0" prefWidth="249.0" promptText="******" styleClass="rounded-border" />
+      <PasswordField fx:id="passField" layoutX="125.0" layoutY="294.0" onKeyPressed="#handleChange" prefHeight="31.0" prefWidth="249.0" promptText="******" styleClass="rounded-border" text="123456" />
       <Label fx:id="setText" layoutX="157.0" layoutY="439.0" textFill="#fff600">
          <font>
             <Font name="System Bold" size="16.0" />

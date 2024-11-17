@@ -8,6 +8,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -82,11 +85,44 @@ public class MYSQLDatabaseOp {
     }
     }
     
+    
+    
+public ObservableList<AppoinmentDoctorList> handleNeededDoctor(String sqlCommand) throws SQLException {
+    String dbName = "hospital-manament-system";
+    String fullURL = URL + "/" + dbName; 
+    ObservableList<AppoinmentDoctorList> doctorList = FXCollections.observableArrayList();
+
+    try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD);
+         PreparedStatement statement = connection.prepareStatement(sqlCommand);
+         ResultSet resultSet = statement.executeQuery()) {
+        while (resultSet.next()) {
+            String name = resultSet.getString("Name");
+            String doctorId = resultSet.getString("DoctorID");
+            doctorList.add(new AppoinmentDoctorList(doctorId, name));
+        }
+
+        if (doctorList.isEmpty()) {
+            Platform.runLater(() -> {
+                LoginController.setTextOther.setText("Error!! No matching doctor found.");
+            });
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        Platform.runLater(() -> {
+            LoginController.setTextOther.setText("Login Failed! Server Error!");
+        });
+        throw new SQLException("Error occurred while fetching doctors: " + e.getMessage(), e);
+    }
+    return doctorList;
+}
+
+        
+        
+    
 public void handleRegister(String email, String password) throws Exception {
     String dbName = "hospital-manament-system";
     String fullURL = URL + "/" + dbName;
 
-    // I add dynamic query construction for ensuring the prevention from sql injection
     String sqlCheck = "SELECT COUNT(*) FROM Users WHERE Email = ?";
     String sqlInsert = "INSERT INTO Users (Email, Password, Role) VALUES (?, ?, ?)";
 
@@ -94,7 +130,6 @@ public void handleRegister(String email, String password) throws Exception {
          PreparedStatement checkStatement = connection.prepareStatement(sqlCheck);
          PreparedStatement insertStatement = connection.prepareStatement(sqlInsert)) {
 
-        // Check the email already  has on database or not
         checkStatement.setString(1, email);
         ResultSet resultSet = checkStatement.executeQuery();
 
@@ -103,14 +138,12 @@ public void handleRegister(String email, String password) throws Exception {
             return;
         }
 
-        // registration if the email does not exist
         insertStatement.setString(1, email);
         insertStatement.setString(2, password);
         insertStatement.setString(3, "user");
         int rowsInserted = insertStatement.executeUpdate();
 
         if (rowsInserted > 0) {
-                //closing the window after successfully login
                 Main.role = "user";
                 Parent root = FXMLLoader.load(getClass().getResource("/View/Patient/BaseUI.fxml"));
                 Scene change = new Scene(root);
@@ -124,6 +157,39 @@ public void handleRegister(String email, String password) throws Exception {
         throw new Exception("Error occurred during registration: " + e.getMessage());
     }
 }
+
+
+public boolean bookAppointment(String patientName, String doctorName, String patientID, String doctorID, String problem) {
+   
+    String sqlCommand = "INSERT INTO appoinmentdetails (PatientName, DoctorName, PatientID, DoctorID, Problem, Prescription, Visited, GenerateID) " +
+                        "VALUES (?, ?, ?, ?, ?, NULL, 0, NULL);";
+
+    String dbName = "hospital-manament-system";
+    String fullURL = URL + "/" + dbName;
+
+    try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD);
+         PreparedStatement statement = connection.prepareStatement(sqlCommand)) {
+
+        statement.setString(1, patientName);
+        statement.setString(2, doctorName);
+        statement.setString(3, patientID); 
+        statement.setString(4, doctorID); 
+        statement.setString(5, problem);
+
+        int rowsInserted = statement.executeUpdate();
+
+        if (rowsInserted > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        System.out.println("Error occurred while handling the appointment: " + e.getMessage());
+    }
+    return false;
+}
+
 
 
 

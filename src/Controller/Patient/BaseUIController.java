@@ -51,6 +51,8 @@ public class BaseUIController implements Initializable {
                 ActiveUI.getChildren().setAll(prescription);
     }
     
+    
+    
     @FXML
     private void changeSceneAppoinment(ActionEvent e)throws Exception{
     appoinment();

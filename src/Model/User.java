@@ -38,8 +38,8 @@ public class User {
     Gender = "";
     }
 
-    public static int getID() {
-        return ID;
+    public static String getID() {
+        return String.valueOf(ID);
     }
 
     public static String getName() {

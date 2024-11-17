@@ -3,6 +3,8 @@
 <?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -28,7 +30,7 @@
             <Font size="16.0" />
          </font>
       </Text>
-      <TextArea layoutX="187.0" layoutY="124.0" prefHeight="80.0" prefWidth="194.0" promptText="Explain about your problem." style="-fx-background-color: none;" />
+      <TextArea fx:id="getProblem" layoutX="187.0" layoutY="124.0" prefHeight="80.0" prefWidth="194.0" promptText="Explain about your problem." style="-fx-background-color: none;" wrapText="true" />
       <ComboBox fx:id="specialisDoctors" layoutX="413.0" layoutY="124.0" prefWidth="150.0" promptText="Select Specialist">
         
     </ComboBox>
@@ -37,7 +39,24 @@
             <Font size="17.0" />
          </font>
       </Text>
-      <Button layoutX="578.0" layoutY="124.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="86.0" text="Search" />
-      <Button layoutX="292.0" layoutY="232.0" mnemonicParsing="false" onAction="#handleButtonClick" text="Button" />
+      <Button layoutX="578.0" layoutY="119.0" mnemonicParsing="false" onAction="#handleSearch" prefHeight="23.0" prefWidth="86.0" style="-fx-background-color: none; -fx-border-color: white; -fx-border-radius: 50px;" text="Search">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font></Button>
+      <AnchorPane layoutX="24.0" layoutY="216.0" prefHeight="239.0" prefWidth="767.0">
+         <children>
+            <TableView fx:id="doctorTableView" layoutX="-1.0" layoutY="-1.0" prefHeight="239.0" prefWidth="578.0">
+              <columns>
+                <TableColumn fx:id="name" prefWidth="371.0" text="Name" />
+                <TableColumn fx:id="doctorId" minWidth="0.0" prefWidth="206.0" text="Doctor ID" />
+              </columns>
+            </TableView>
+            <Button layoutX="605.0" layoutY="102.0" mnemonicParsing="false" onAction="#handleAppoinment" style="-fx-background-color: none; -fx-border-color: white; -fx-border-radius: 50px;" text="Take Appoinment">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
