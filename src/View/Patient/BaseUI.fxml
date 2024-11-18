@@ -35,7 +35,7 @@
                </font>
             </Button>
             <AnchorPane fx:id="dynamicOption" layoutX="5.0" layoutY="259.0" prefHeight="156.0" prefWidth="167.0" />
-            <Button layoutX="10.0" layoutY="439.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="153.0" style="-fx-background-color: none; -fx-cursor: pointer; -fx-border-color: white; -fx-border-radius: 50px;" text="Update Profile" textFill="WHITE">
+            <Button layoutX="10.0" layoutY="439.0" mnemonicParsing="false" onAction="#handleUpdateProfile" prefHeight="52.0" prefWidth="153.0" style="-fx-background-color: none; -fx-cursor: pointer; -fx-border-color: white; -fx-border-radius: 50px;" text="Update Profile" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>

@@ -65,7 +65,7 @@ public class MYSQLDatabaseOp {
                     String imageURL = resultSet.getString("ImageURL");
                     String email = resultSet.getString("Email");
                     String password = resultSet.getString("Password");
-                    String phone = resultSet.getString("Phone");
+                    String phone = resultSet.getString("ContactNumber");
                     String age = resultSet.getString("Age");
                     String gender = resultSet.getString("Gender");
                     userData = new User(id, name, role, imageURL, email, password, phone, age, gender);

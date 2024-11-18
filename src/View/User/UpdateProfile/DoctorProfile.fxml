@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="462.0" prefWidth="807.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="Controller.User.UpdateProfile.DoctorProfileController">
+    <stylesheets>
+        <URL value="@doctorprofile.css" />
+    </stylesheets>
+   <children>
+      <Text layoutX="270.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Update Your Profile">
+         <font>
+            <Font name="System Bold" size="31.0" />
+         </font>
+      </Text>
+      <TextField layoutX="68.0" layoutY="142.0" promptText="Enter Your Name" />
+      <TextField layoutX="258.0" layoutY="142.0" promptText="Inter Your Image URL" />
+      <TextField layoutX="446.0" layoutY="142.0" promptText="Enter Your Phone Number" />
+      <Text layoutX="68.0" layoutY="134.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name" />
+      <Text layoutX="257.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Image URL" />
+      <Text layoutX="448.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Phone Number" />
+      <TextField layoutX="641.0" layoutY="142.0" promptText="Enter Your Email Address" />
+      <Text layoutX="641.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" />
+      <TextField layoutX="258.0" layoutY="205.0" promptText="Enter Your Age" />
+      <Text layoutX="259.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Age" />
+      <Text layoutX="446.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gender" />
+      <Text layoutX="379.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Address" />
+      <TextArea layoutX="286.0" layoutY="269.0" prefHeight="113.0" prefWidth="280.0" promptText="Enter Your Address" />
+      <Button layoutX="373.0" layoutY="400.0" mnemonicParsing="false" onAction="#handleUpdateProfile" text="UPDATE PROFILE" />
+      <ComboBox layoutX="445.0" layoutY="205.0" prefWidth="150.0" promptText="Select Right One" />
+   </children>
+</AnchorPane>

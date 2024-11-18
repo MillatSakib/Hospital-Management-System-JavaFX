@@ -4,13 +4,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Sakib/Downloads/Hospital-Management-System-JavaFX/src/Model/MYSQLDatabaseOp.java</file>
-            <file>file:/C:/Users/Sakib/Downloads/Hospital-Management-System-JavaFX/src/Model/User.java</file>
-            <file>file:/C:/Users/Sakib/Downloads/Hospital-Management-System-JavaFX/src/Model/AppoinmentDoctorList.java</file>
-            <file>file:/C:/Users/Sakib/Downloads/Hospital-Management-System-JavaFX/src/View/Patient/Appoinment/Appoinment.fxml</file>
-            <file>file:/C:/Users/Sakib/Downloads/Hospital-Management-System-JavaFX/src/Controller/Auth/Login/LoginController.java</file>
-            <file>file:/C:/Users/Sakib/Downloads/Hospital-Management-System-JavaFX/src/Model/Doctor.java</file>
+            <file>file:/C:/Users/Sakib/Downloads/Hospital-Management-System-JavaFX/src/Model/AproveDoctor.java</file>
+            <file>file:/C:/Users/Sakib/Downloads/Hospital-Management-System-JavaFX/src/Controller/Doctor/AllPatient/AllPatientController.java</file>
             <file>file:/C:/Users/Sakib/Downloads/Hospital-Management-System-JavaFX/src/Controller/Main.java</file>
-            <file>file:/C:/Users/Sakib/Downloads/Hospital-Management-System-JavaFX/src/Controller/Patient/Appoinment/AppoinmentController.java</file>
+            <file>file:/C:/Users/Sakib/Downloads/Hospital-Management-System-JavaFX/src/Model/AllPatientForDoctor.java</file>
+            <file>file:/C:/Users/Sakib/Downloads/Hospital-Management-System-JavaFX/src/Controller/Admin/RemoveUser/RemoveUserController.java</file>
         </group>
     </open-files>
 </project-private>

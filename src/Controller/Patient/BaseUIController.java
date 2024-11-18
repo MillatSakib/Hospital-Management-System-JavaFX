@@ -5,7 +5,6 @@
 package Controller.Patient;
 
 import Controller.Main;
-import Controller.Patient.Appoinment.AppoinmentController;
 import Model.Admin;
 import Model.Doctor;
 import Model.User;
@@ -13,14 +12,12 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -51,6 +48,22 @@ public class BaseUIController implements Initializable {
                 ActiveUI.getChildren().setAll(prescription);
     }
     
+    @FXML
+    private void handleUpdateProfile(ActionEvent e)throws Exception{
+        
+        if("admin".equals(Main.role)){
+        Parent register = FXMLLoader.load(getClass().getResource("/View/User/UpdateProfile/AdminProfile.fxml"));
+        ActiveUI.getChildren().setAll(register);
+        }
+        else if("doctor".equals(Main.role)){
+        Parent register = FXMLLoader.load(getClass().getResource("/View/User/UpdateProfile/DoctorProfile.fxml"));
+        ActiveUI.getChildren().setAll(register);
+        }else{
+        Parent register = FXMLLoader.load(getClass().getResource("/View/User/UpdateProfile/UserProfile.fxml"));
+        ActiveUI.getChildren().setAll(register);
+        }
+    
+    }
     
     
     @FXML
