@@ -5,6 +5,7 @@
 package Controller.Doctor.AllPatient;
 
 import Model.AllPatientForDoctor;
+import Model.Doctor;
 import Model.MYSQLDatabaseOp;
 import java.net.URL;
 import java.sql.SQLException;
@@ -55,7 +56,7 @@ private TableColumn<AllPatientForDoctor, String> prescription;
         
         try{
             MYSQLDatabaseOp database = new MYSQLDatabaseOp();
-            String query = "SELECT * FROM appoinmentdetails WHERE DoctorID='222902036'";
+            String query = "SELECT * FROM appoinmentdetails WHERE DoctorID='"+Doctor.getDoctorID()+"' AND PatientName!='"+Doctor.getName()+"'";
             ObservableList<AllPatientForDoctor> allPatients = database.allPatient(query);
             allPatientTable.setItems(allPatients);
         }catch(SQLException ee){

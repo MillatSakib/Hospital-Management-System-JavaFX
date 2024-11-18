@@ -9,11 +9,11 @@ package Model;
  * @author Sakib
  */
 public class AllAppoinment {
-    public static String DoctorID;
-    public static String DoctorName;
-    public static String Problem;
-    public static String Visited;
-    public static String ContactNumber;
+    public String DoctorID;
+    public String DoctorName;
+    public String Problem;
+    public String Visited;
+    public String ContactNumber;
     AllAppoinment(String DoctorName, String DoctorID, String Problem, String Visited, String ContactNumber){
     this.DoctorName = DoctorName;
     this.DoctorID = DoctorID;
@@ -22,44 +22,44 @@ public class AllAppoinment {
     this.ContactNumber = ContactNumber;
     }
 
-    public static String getDoctorID() {
+    public String getDoctorID() {
         return DoctorID;
     }
 
-    public static String getDoctorName() {
+    public String getDoctorName() {
         return DoctorName;
     }
 
-    public static void setDoctorName(String DoctorName) {
-        AllAppoinment.DoctorName = DoctorName;
+    public void setDoctorName(String DoctorName) {
+        this.DoctorName = DoctorName;
     }
 
-    public static void setDoctorID(String DoctorID) {
-        AllAppoinment.DoctorID = DoctorID;
+    public void setDoctorID(String DoctorID) {
+        this.DoctorID = DoctorID;
     }
 
-    public static String getProblem() {
+    public String getProblem() {
         return Problem;
     }
 
-    public static void setProblem(String Problem) {
-        AllAppoinment.Problem = Problem;
+    public void setProblem(String Problem) {
+        this.Problem = Problem;
     }
 
-    public static String getVisited() {
+    public String getVisited() {
         return Visited;
     }
 
-    public static void setVisited(String Visited) {
-        AllAppoinment.Visited = Visited;
+    public void setVisited(String Visited) {
+        this.Visited = Visited;
     }
 
-    public static String getContactNumber() {
+    public String getContactNumber() {
         return ContactNumber;
     }
 
-    public static void setContactNumber(String ContactNumber) {
-        AllAppoinment.ContactNumber = ContactNumber;
+    public void setContactNumber(String ContactNumber) {
+        this.ContactNumber = ContactNumber;
     }
     
     

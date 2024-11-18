@@ -1,5 +1,6 @@
 package Controller.Patient.Appoinment;
 
+import Controller.Main;
 import Model.AppoinmentDoctorList;
 import Model.MYSQLDatabaseOp;
 import Model.User;
@@ -17,6 +18,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
+import Model.Doctor;
 
 public class AppoinmentController implements Initializable {
 
@@ -44,7 +46,12 @@ public class AppoinmentController implements Initializable {
             return;
         }
         MYSQLDatabaseOp dbOp = new MYSQLDatabaseOp();
-        String query = "SELECT * FROM users WHERE Specialization='" + selectedValue + "'";
+        String query;
+        if("doctor".equals(Main.role)){
+         query = "SELECT * FROM users WHERE Specialization='" + selectedValue + "' AND DoctorID!='"+Doctor.getDoctorID()+"'";
+        }else{
+         query = "SELECT * FROM users WHERE Specialization='" + selectedValue + "'";
+        }
         ObservableList<AppoinmentDoctorList> doctors = dbOp.handleNeededDoctor(query);
         doctorTableView.setItems(doctors);
     }

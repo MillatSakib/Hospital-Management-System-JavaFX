@@ -68,7 +68,18 @@ public class MYSQLDatabaseOp {
                     String phone = resultSet.getString("ContactNumber");
                     String age = resultSet.getString("Age");
                     String gender = resultSet.getString("Gender");
+                    String specialization = resultSet.getString("Specialization");
+                    String doctorID = resultSet.getString("DoctorID");
+                    String address = resultSet.getString("Address");
+                    if("doctor".equals(role)){
+                    userData = new Doctor(id, name, role, imageURL, email, password, phone, age, gender, specialization, doctorID, address);
+                    }else if("admin".equals(role)){
+                    userData= new Admin(id, name, role, imageURL, email, password, phone, age, gender, address);
+                    }
+                    else{
                     userData = new User(id, name, role, imageURL, email, password, phone, age, gender);
+                    }
+                    
                     Main.role = resultSet.getString("Role");
                     Main.imgURL = resultSet.getString("ImageURL");
                     //closing the window after successfully login
@@ -227,7 +238,6 @@ public class MYSQLDatabaseOp {
                 }else{
                 visited="Pending";
                 }
-
                 prescriptionList.add(new AllAppoinment(doctorName, doctorId, problem, visited, contactNumber));
             }
 

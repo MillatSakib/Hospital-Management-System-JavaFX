@@ -9,10 +9,10 @@ package Model;
  * @author Sakib
  */
 public class AllPrescription {
-    public static String doctorName;
-    public static String doctorID;
-    public static String problem;
-    public static String prescription;
+    public String doctorName;
+    public String doctorID;
+    public String problem;
+    public String prescription;
 
     public AllPrescription(String doctorName, String doctorID,String problem, String prescription ) {
         this.doctorName = doctorName; 
@@ -22,36 +22,36 @@ public class AllPrescription {
         
     }
 
-    public static String getDoctorName() {
+    public String getDoctorName() {
         return doctorName;
     }
 
-    public static void setDoctorName(String doctorName) {
-        AllPrescription.doctorName = doctorName;
+    public void setDoctorName(String doctorName) {
+        this.doctorName = doctorName;
     }
 
-    public static String getDoctorID() {
+    public String getDoctorID() {
         return doctorID;
     }
 
-    public static void setDoctorID(String doctorID) {
-        AllPrescription.doctorID = doctorID;
+    public void setDoctorID(String doctorID) {
+        this.doctorID = doctorID;
     }
 
-    public static String getProblem() {
+    public String getProblem() {
         return problem;
     }
 
-    public static void setProblem(String problem) {
-        AllPrescription.problem = problem;
+    public void setProblem(String problem) {
+        this.problem = problem;
     }
 
-    public static String getPrescription() {
+    public String getPrescription() {
         return prescription;
     }
 
-    public static void setPrescription(String prescription) {
-        AllPrescription.prescription = prescription;
+    public void setPrescription(String prescription) {
+        this.prescription = prescription;
     }
     
     

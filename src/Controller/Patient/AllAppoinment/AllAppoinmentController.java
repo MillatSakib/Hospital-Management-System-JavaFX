@@ -58,6 +58,7 @@ public class AllAppoinmentController implements Initializable {
          try {
         ObservableList<AllAppoinment> allappoinment = database.allAppoinmentPatient(query);
         allAppoinment.setItems(allappoinment);
+       
     } catch (SQLException ex) {
         Logger.getLogger(AllAppoinment.class.getName()).log(Level.SEVERE, null, ex);
     }

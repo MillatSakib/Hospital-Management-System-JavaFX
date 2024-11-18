@@ -35,5 +35,19 @@ public class Doctor extends User {
     DoctorID="";
     Address="";
     }
+
+    public static String getSpecialization() {
+        return Specialization;
+    }
+
+    public static String getDoctorID() {
+        return DoctorID;
+    }
+
+    public static String getAddress() {
+        return Address;
+    }
+     
+     
     
 }
