@@ -71,17 +71,17 @@ public class MYSQLDatabaseOp {
                     String specialization = resultSet.getString("Specialization");
                     String doctorID = resultSet.getString("DoctorID");
                     String address = resultSet.getString("Address");
-                    if("doctor".equals(role)){
-                    userData = new Doctor(id, name, role, imageURL, email, password, phone, age, gender, specialization, doctorID, address);
-                    }else if("admin".equals(role)){
-                    userData= new Admin(id, name, role, imageURL, email, password, phone, age, gender, address);
+                    if ("doctor".equals(role)) {
+                        userData = new Doctor(id, name, role, imageURL, email, password, phone, age, gender, specialization, doctorID, address);
+                    } else if ("admin".equals(role)) {
+                        userData = new Admin(id, name, role, imageURL, email, password, phone, age, gender, address);
+                    } else {
+                        userData = new User(id, name, role, imageURL, email, password, phone, age, gender);
                     }
-                    else{
-                    userData = new User(id, name, role, imageURL, email, password, phone, age, gender);
-                    }
-                    
+
                     Main.role = resultSet.getString("Role");
                     Main.imgURL = resultSet.getString("ImageURL");
+                    Main.DoctorID = doctorID!=null ? doctorID : "" ;
                     //closing the window after successfully login
                     Parent root = FXMLLoader.load(getClass().getResource("/View/Patient/BaseUI.fxml"));
                     Scene change = new Scene(root);
@@ -233,10 +233,10 @@ public class MYSQLDatabaseOp {
                 String problem = resultSet.getString("Problem");
                 String visited = resultSet.getString("Visited");
                 String doctorName = resultSet.getString("DoctorName");
-                if("1".equals(visited)){
-                visited="Done";
-                }else{
-                visited="Pending";
+                if ("1".equals(visited)) {
+                    visited = "Done";
+                } else {
+                    visited = "Pending";
                 }
                 prescriptionList.add(new AllAppoinment(doctorName, doctorId, problem, visited, contactNumber));
             }
@@ -255,8 +255,7 @@ public class MYSQLDatabaseOp {
         }
         return prescriptionList;
     }
-    
-    
+
     public ObservableList<RemoveUserContainer> allUserForRemove(String query) throws SQLException {
         String dbName = "hospital-manament-system";
         String fullURL = URL + "/" + dbName;
@@ -268,7 +267,6 @@ public class MYSQLDatabaseOp {
                 String Id = resultSet.getString("ID");
                 String role = resultSet.getString("Role");
                 String contactNumber = resultSet.getString("ContactNumber");
-                
 
                 allUserList.add(new RemoveUserContainer(name, Id, role, contactNumber));
             }
@@ -287,59 +285,54 @@ public class MYSQLDatabaseOp {
         }
         return allUserList;
     }
-    
-    
- public boolean handleRemoveUser(String deleteQuery) throws SQLException {
-    String dbName = "hospital-manament-system";
-    String fullURL = URL + "/" + dbName;
 
-    try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD);
-         Statement statement = connection.createStatement()) {
-        int rowsAffected = statement.executeUpdate(deleteQuery);
-        if (rowsAffected > 0) {
-            return true; 
-        } else {
+    public boolean handleRemoveUser(String deleteQuery) throws SQLException {
+        String dbName = "hospital-manament-system";
+        String fullURL = URL + "/" + dbName;
+
+        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); Statement statement = connection.createStatement()) {
+            int rowsAffected = statement.executeUpdate(deleteQuery);
+            if (rowsAffected > 0) {
+                return true;
+            } else {
+                Platform.runLater(() -> {
+                    LoginController.setTextOther.setText("No records found to delete.");
+                });
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
             Platform.runLater(() -> {
-                LoginController.setTextOther.setText("No records found to delete.");
+                LoginController.setTextOther.setText("Error executing delete query.");
             });
-            return false;
+            throw new SQLException("Error occurred while executing delete query: " + e.getMessage(), e);
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
-        Platform.runLater(() -> {
-            LoginController.setTextOther.setText("Error executing delete query.");
-        });
-        throw new SQLException("Error occurred while executing delete query: " + e.getMessage(), e);
     }
-}
- 
- 
-  public boolean handleUpdateRole(String deleteQuery) throws SQLException {
-    String dbName = "hospital-manament-system";
-    String fullURL = URL + "/" + dbName;
 
-    try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD);
-         Statement statement = connection.createStatement()) {
-        int rowsAffected = statement.executeUpdate(deleteQuery);
-        if (rowsAffected > 0) {
-            return true; 
-        } else {
+    public boolean handleUpdateRole(String deleteQuery) throws SQLException {
+        String dbName = "hospital-manament-system";
+        String fullURL = URL + "/" + dbName;
+
+        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); Statement statement = connection.createStatement()) {
+            int rowsAffected = statement.executeUpdate(deleteQuery);
+            if (rowsAffected > 0) {
+                return true;
+            } else {
+                Platform.runLater(() -> {
+                    LoginController.setTextOther.setText("No records found to delete.");
+                });
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
             Platform.runLater(() -> {
-                LoginController.setTextOther.setText("No records found to delete.");
+                LoginController.setTextOther.setText("Error executing delete query.");
             });
-            return false;
+            throw new SQLException("Error occurred while executing delete query: " + e.getMessage(), e);
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
-        Platform.runLater(() -> {
-            LoginController.setTextOther.setText("Error executing delete query.");
-        });
-        throw new SQLException("Error occurred while executing delete query: " + e.getMessage(), e);
     }
-}
 
-  
-      public ObservableList<AproveDoctor> allDoctorApply(String query) throws SQLException {
+    public ObservableList<AproveDoctor> allDoctorApply(String query) throws SQLException {
         String dbName = "hospital-manament-system";
         String fullURL = URL + "/" + dbName;
         ObservableList<AproveDoctor> appliedDoctor = FXCollections.observableArrayList();
@@ -353,7 +346,6 @@ public class MYSQLDatabaseOp {
                 String gender = resultSet.getString("Gender");
                 String phone = resultSet.getString("ContactNumber");
                 String address = resultSet.getString("Address");
-                
 
                 appliedDoctor.add(new AproveDoctor(name, Id, email, age, gender, phone, address));
             }
@@ -372,10 +364,8 @@ public class MYSQLDatabaseOp {
         }
         return appliedDoctor;
     }
-      
-      
-      
-            public ObservableList<AllPatientForDoctor> allPatient(String query) throws SQLException {
+
+    public ObservableList<AllPatientForDoctor> allPatient(String query) throws SQLException {
         String dbName = "hospital-manament-system";
         String fullURL = URL + "/" + dbName;
         ObservableList<AllPatientForDoctor> allPatient = FXCollections.observableArrayList();
@@ -389,9 +379,8 @@ public class MYSQLDatabaseOp {
                 String gender = resultSet.getString("Gender");
                 String problem = resultSet.getString("Problem");
                 String prescription = resultSet.getString("Prescription");
-                
 
-                allPatient.add(new AllPatientForDoctor(name, Id, email, gender,age, problem, prescription));
+                allPatient.add(new AllPatientForDoctor(name, Id, email, gender, age, problem, prescription));
             }
 
             if (allPatient.isEmpty()) {
@@ -408,29 +397,51 @@ public class MYSQLDatabaseOp {
         }
         return allPatient;
     }
-            
-              public boolean handleUpdateUserData(String deleteQuery) throws SQLException {
-    String dbName = "hospital-manament-system";
-    String fullURL = URL + "/" + dbName;
 
-    try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD);
-         Statement statement = connection.createStatement()) {
-        int rowsAffected = statement.executeUpdate(deleteQuery);
-        if (rowsAffected > 0) {
-            return true; 
-        } else {
+    public boolean handleUpdateUserData(String deleteQuery) throws SQLException {
+        String dbName = "hospital-manament-system";
+        String fullURL = URL + "/" + dbName;
+
+        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); Statement statement = connection.createStatement()) {
+            int rowsAffected = statement.executeUpdate(deleteQuery);
+            if (rowsAffected > 0) {
+                return true;
+            } else {
+                Platform.runLater(() -> {
+                    LoginController.setTextOther.setText("No records found to delete.");
+                });
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
             Platform.runLater(() -> {
-                LoginController.setTextOther.setText("No records found to delete.");
+                LoginController.setTextOther.setText("Error executing delete query.");
             });
-            return false;
+            throw new SQLException("Error occurred while executing delete query: " + e.getMessage(), e);
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
-        Platform.runLater(() -> {
-            LoginController.setTextOther.setText("Error executing delete query.");
-        });
-        throw new SQLException("Error occurred while executing delete query: " + e.getMessage(), e);
     }
-}
+
+    public boolean handleApplyAsDoctor(String deleteQuery) throws SQLException {
+        String dbName = "hospital-manament-system";
+        String fullURL = URL + "/" + dbName;
+
+        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); Statement statement = connection.createStatement()) {
+            int rowsAffected = statement.executeUpdate(deleteQuery);
+            if (rowsAffected > 0) {
+                return true;
+            } else {
+                Platform.runLater(() -> {
+                    LoginController.setTextOther.setText("No records found to delete.");
+                });
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Platform.runLater(() -> {
+                LoginController.setTextOther.setText("Error executing delete query.");
+            });
+            throw new SQLException("Error occurred while executing delete query: " + e.getMessage(), e);
+        }
+    }
 
 }

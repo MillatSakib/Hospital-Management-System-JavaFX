@@ -34,7 +34,6 @@ public class BaseUIController implements Initializable {
      */
 //    @FXML
 //    private ComboBox<String> specialisDoctors;
-
     @FXML
     private ImageView image;
     @FXML
@@ -42,39 +41,41 @@ public class BaseUIController implements Initializable {
     public static AnchorPane ActiveUIRef;
     @FXML
     private AnchorPane dynamicOption;
+
     @FXML
-    private void changeScenePrescription(ActionEvent e)throws Exception{
-    Parent prescription = FXMLLoader.load(getClass().getResource("/View/Patient/Prescriptions/Prescription.fxml"));
-                ActiveUI.getChildren().setAll(prescription);
+    private void changeScenePrescription(ActionEvent e) throws Exception {
+        Parent prescription = FXMLLoader.load(getClass().getResource("/View/Patient/Prescriptions/Prescription.fxml"));
+        ActiveUI.getChildren().setAll(prescription);
     }
-    
+
     @FXML
-    private void handleUpdateProfile(ActionEvent e)throws Exception{
-        
-        if("admin".equals(Main.role)){
-        Parent register = FXMLLoader.load(getClass().getResource("/View/User/UpdateProfile/AdminProfile.fxml"));
-        ActiveUI.getChildren().setAll(register);
+    private void handleUpdateProfile(ActionEvent e) throws Exception {
+
+        if ("admin".equals(Main.role)) {
+            Parent register = FXMLLoader.load(getClass().getResource("/View/User/UpdateProfile/AdminProfile.fxml"));
+            ActiveUI.getChildren().setAll(register);
+        } else if ("doctor".equals(Main.role)) {
+            Parent register = FXMLLoader.load(getClass().getResource("/View/User/UpdateProfile/DoctorProfile.fxml"));
+            ActiveUI.getChildren().setAll(register);
+        } else {
+            
+            Parent register = FXMLLoader.load(getClass().getResource("/View/User/UpdateProfile/UserProfile.fxml"));
+            ActiveUI.getChildren().setAll(register);
         }
-        else if("doctor".equals(Main.role)){
-        Parent register = FXMLLoader.load(getClass().getResource("/View/User/UpdateProfile/DoctorProfile.fxml"));
-        ActiveUI.getChildren().setAll(register);
-        }else{
-        Parent register = FXMLLoader.load(getClass().getResource("/View/User/UpdateProfile/UserProfile.fxml"));
-        ActiveUI.getChildren().setAll(register);
-        }
-    
+
     }
-    
-    
+
     @FXML
-    private void changeSceneAppoinment(ActionEvent e)throws Exception{
-    appoinment();
+    private void changeSceneAppoinment(ActionEvent e) throws Exception {
+        appoinment();
     }
+
     @FXML
-    private void handleSceneTakeBed(ActionEvent e)throws Exception{
-    Parent register = FXMLLoader.load(getClass().getResource("/View/Patient/AllAppoinment/AllAppoinment.fxml"));
-    ActiveUI.getChildren().setAll(register);
+    private void handleSceneTakeBed(ActionEvent e) throws Exception {
+        Parent register = FXMLLoader.load(getClass().getResource("/View/Patient/AllAppoinment/AllAppoinment.fxml"));
+        ActiveUI.getChildren().setAll(register);
     }
+
     public void setImage(String imageUrl) {
         // Create a new Image object with the URL
         Image imagee = new Image(imageUrl);
@@ -82,45 +83,56 @@ public class BaseUIController implements Initializable {
         // Set the Image object in the ImageView
         image.setImage(imagee);
     }
+
     @FXML
-    private void handleLogOut(ActionEvent Event)throws Exception{
-    Parent root = FXMLLoader.load(getClass().getResource("/View/Auth/Base.fxml"));
-    Scene change = new Scene(root);
-    String Role = Main.role;
+    private void handleLogOut(ActionEvent Event) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("/View/Auth/Base.fxml"));
+        Scene change = new Scene(root);
+        String Role = Main.role;
+
+        //After logout reset all Data from software
+        if ("doctor".equals(Role)) {
+            Doctor.resetDoctor();
+        } else if ("admin".equals(Role)) {
+            Admin.resetAdmin();
+        } else {
+            User.resetUser();
+        }
+        Main.stageRef.setScene(change);
+    }
+
+    public void addFeature() throws Exception {
+        if ("doctor".equals(Main.role)) {
+            Parent register = FXMLLoader.load(getClass().getResource("/View/Doctor/BaseFeature.fxml"));
+            dynamicOption.getChildren().setAll(register);
+        } else if ("admin".equals(Main.role)) {
+            Parent register = FXMLLoader.load(getClass().getResource("/View/Admin/FXML.fxml"));
+            dynamicOption.getChildren().setAll(register);
+        }
+    }
+
+    public void appoinment() throws Exception {
+        Parent register = FXMLLoader.load(getClass().getResource("/View/Patient/Appoinment/Appoinment.fxml"));
+        ActiveUI.getChildren().setAll(register);
+    }
+
+
+        
     
-    //After logout reset all Data from software
-    if("doctor".equals(Role)){
-    Doctor.resetDoctor();
-    }
-    else if("admin".equals(Role)){
-        Admin.resetAdmin();
-    }
-    else{
-        User.resetUser();
-    }
-    Main.stageRef.setScene(change);
-    }
-    
-    public void addFeature()throws Exception{
-     if("doctor".equals(Main.role)){
-             Parent register = FXMLLoader.load(getClass().getResource("/View/Doctor/BaseFeature.fxml"));
-                dynamicOption.getChildren().setAll(register);
-         }else if("admin".equals(Main.role)){
-             Parent register = FXMLLoader.load(getClass().getResource("/View/Admin/FXML.fxml"));
-                dynamicOption.getChildren().setAll(register);
-         }
-    }
-    
-    public void appoinment()throws Exception{
-    Parent register = FXMLLoader.load(getClass().getResource("/View/Patient/Appoinment/Appoinment.fxml"));
-                ActiveUI.getChildren().setAll(register);
-    }
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        ActiveUIRef= ActiveUI;
+        ActiveUIRef = ActiveUI;
         String result = (Main.imgURL != null && !"".equals(Main.imgURL)) ? Main.imgURL : "/View/images/person.png";
-         setImage(result);
+        setImage(result);
+        try{
+        if("".equals(User.getName()) || User.getName() == null || "".equals(User.getEmail()) || User.getEmail() == null ||"".equals(User.getAge()) || User.getAge() == null || "".equals(User.getGender()) || User.getGender() == null){
+        Parent register = FXMLLoader.load(getClass().getResource("/View/User/UpdateProfile/UserProfile.fxml"));
+            ActiveUI.getChildren().setAll(register);
+            return;
+        }}catch(Exception e){
+            System.out.println(e);
+        }
         try {
             addFeature();
         } catch (Exception ex) {
@@ -131,6 +143,6 @@ public class BaseUIController implements Initializable {
         } catch (Exception ex) {
             Logger.getLogger(BaseUIController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }    
-    
+    }
+
 }

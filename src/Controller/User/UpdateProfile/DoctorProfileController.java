@@ -19,6 +19,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import Model.Doctor;
+
 /**
  * FXML Controller class
  *
@@ -130,13 +131,17 @@ public class DoctorProfileController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         //For set User can input only number
         age.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) {
-                age.setText(newValue.replaceAll("[^\\d]", ""));
+            if (newValue != null) {
+                if (!newValue.matches("\\d*")) {
+                    age.setText(newValue.replaceAll("[^\\d]", ""));
+                }
             }
         });
         phoneNumber.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) {
-                phoneNumber.setText(newValue.replaceAll("[^\\d]", ""));
+            if (newValue != null) {
+                if (!newValue.matches("\\d*")) {
+                    phoneNumber.setText(newValue.replaceAll("[^\\d]", ""));
+                }
             }
         });
         name.setText(Doctor.getName());
@@ -147,8 +152,8 @@ public class DoctorProfileController implements Initializable {
         address.setText(Doctor.getAddress());
 
         gender.setItems(FXCollections.observableArrayList("Male", "Female", "Other"));
-        if("Male".equals(Doctor.getGender()) || "Female".equals(Doctor.getGender()) || "Other".equals(Doctor.getGender())){
-        gender.setValue(Doctor.getGender());
+        if ("Male".equals(Doctor.getGender()) || "Female".equals(Doctor.getGender()) || "Other".equals(Doctor.getGender())) {
+            gender.setValue(Doctor.getGender());
         }
 
     }

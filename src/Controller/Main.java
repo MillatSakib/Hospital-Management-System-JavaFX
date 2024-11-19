@@ -9,6 +9,7 @@ public class Main extends Application {
     public static Stage stageRef;
     public static String role = "";
     public static String imgURL = "";
+    public static String DoctorID = "";
     @Override
     
     //database testing

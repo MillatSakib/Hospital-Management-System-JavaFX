@@ -4,6 +4,8 @@
  */
 package Controller.User.UpdateProfile;
 
+import Controller.Main;
+import Controller.Patient.BaseUIController;
 import Model.Admin;
 import Model.MYSQLDatabaseOp;
 import java.net.URL;
@@ -18,6 +20,9 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import Model.User;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
 
 /**
  * FXML Controller class
@@ -38,6 +43,8 @@ public class UserProfileController implements Initializable {
     private TextField age;
     @FXML
     private ComboBox<String> gender;
+    @FXML
+    private Button applyAsDoctorattr;
 
     @FXML
     private void handleUpdateProfile(ActionEvent e) throws Exception {
@@ -56,6 +63,12 @@ public class UserProfileController implements Initializable {
                 alert.show();
             }
         }
+    }
+
+    @FXML
+    private void applyAsDoctor() throws Exception {
+        Parent register = FXMLLoader.load(getClass().getResource("/View/User/ApplyAsDoctor/ApplyAsDoctor.fxml"));
+        BaseUIController.ActiveUIRef.getChildren().setAll(register);
     }
 
     /**
@@ -104,13 +117,17 @@ public class UserProfileController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         //For set User can input only number
         age.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) {
-                age.setText(newValue.replaceAll("[^\\d]", ""));
+            if (newValue != null) {
+                if (!newValue.matches("\\d*")) {
+                    age.setText(newValue.replaceAll("[^\\d]", ""));
+                }
             }
         });
         phoneNumber.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) {
-                phoneNumber.setText(newValue.replaceAll("[^\\d]", ""));
+            if (newValue != null) {
+                if (!newValue.matches("\\d*")) {
+                    phoneNumber.setText(newValue.replaceAll("[^\\d]", ""));
+                }
             }
         });
         name.setText(User.getName());
@@ -118,10 +135,21 @@ public class UserProfileController implements Initializable {
         phoneNumber.setText(User.getPhone());
         email.setText(User.getEmail());
         age.setText(User.getAge());
-
+        String updateName = name.getText();
+        String updateGmail = email.getText();
+        String updateAge = age.getText();
+        String getGender = gender.getValue();
+        if("".equals(updateName) || updateName == null || "".equals(updateGmail) || updateGmail == null ||"".equals(updateAge) || updateAge == null || "".equals(getGender) || getGender == null){
+        applyAsDoctorattr.setDisable(true);
+            applyAsDoctorattr.setText("Apply As A Doctor");
+        }
         gender.setItems(FXCollections.observableArrayList("Male", "Female", "Other"));
-        if("Male".equals(User.getGender()) || "Female".equals(User.getGender()) || "Other".equals(User.getGender())){
-        gender.setValue(User.getGender());
+        if ("Male".equals(User.getGender()) || "Female".equals(User.getGender()) || "Other".equals(User.getGender())) {
+            gender.setValue(User.getGender());
+        }
+        if (Main.DoctorID.length() > 0) {
+            applyAsDoctorattr.setDisable(true);
+            applyAsDoctorattr.setText("Already Applied");
         }
     }
 

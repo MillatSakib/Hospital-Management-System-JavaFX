@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="464.0" prefWidth="810.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.User.ApplyAsDoctor.ApplyAsDoctorController">
+    <stylesheets>
+        <URL value="@applyasdoctor.css" />
+    </stylesheets>
+   <children>
+      <Text layoutX="286.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Apply As Doctor">
+         <font>
+            <Font name="System Bold" size="31.0" />
+         </font>
+      </Text>
+      <TextField fx:id="doctorID" layoutX="415.0" layoutY="134.0" promptText="Enter your Doctor ID" />
+      <Text layoutX="415.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Doctor ID" />
+      <Text layoutX="211.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Specialization" />
+      <Button layoutX="350.0" layoutY="176.0" mnemonicParsing="false" onAction="#handleApplyAsDoctor" text="Apply Now" />
+      <ComboBox fx:id="specialization" layoutX="211.0" layoutY="135.0" prefWidth="150.0" promptText="Select your Specialization" />
+   </children>
+</AnchorPane>

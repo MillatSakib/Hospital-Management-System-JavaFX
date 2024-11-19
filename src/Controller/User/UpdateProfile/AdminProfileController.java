@@ -108,13 +108,17 @@ public class AdminProfileController implements Initializable {
 
         //For set User can input only number
         age.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) {
-                age.setText(newValue.replaceAll("[^\\d]", ""));
+            if (newValue != null) {
+                if (!newValue.matches("\\d*")) {
+                    age.setText(newValue.replaceAll("[^\\d]", ""));
+                }
             }
         });
         phoneNumber.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) {
-                phoneNumber.setText(newValue.replaceAll("[^\\d]", ""));
+            if (newValue != null) {
+                if (!newValue.matches("\\d*")) {
+                    phoneNumber.setText(newValue.replaceAll("[^\\d]", ""));
+                }
             }
         });
         name.setText(Admin.getName());
@@ -125,10 +129,9 @@ public class AdminProfileController implements Initializable {
         address.setText(Admin.getAddress());
 
         gender.setItems(FXCollections.observableArrayList("Male", "Female", "Other"));
-        if("Male".equals(Admin.getGender()) || "Female".equals(Admin.getGender()) || "Other".equals(Admin.getGender())){
-        gender.setValue(Admin.getGender());
+        if ("Male".equals(Admin.getGender()) || "Female".equals(Admin.getGender()) || "Other".equals(Admin.getGender())) {
+            gender.setValue(Admin.getGender());
         }
-        
 
     }
 
