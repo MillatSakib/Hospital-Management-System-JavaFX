@@ -47,9 +47,10 @@ public class AppoinmentController implements Initializable {
         MYSQLDatabaseOp dbOp = new MYSQLDatabaseOp();
         String query;
         if("doctor".equals(Main.role)){
-         query = "SELECT * FROM users WHERE Specialization='" + selectedValue + "' AND DoctorID!='"+Doctor.getDoctorID()+"'";
+         query = "SELECT * FROM users WHERE Specialization='" + selectedValue + "' AND DoctorID!='"+Doctor.getDoctorID()+"' AND Role='doctor'";
+            System.out.println(query);
         }else{
-         query = "SELECT * FROM users WHERE Specialization='" + selectedValue + "'";
+         query = "SELECT * FROM users WHERE Specialization='" + selectedValue + "' AND Role='doctor'";
         }
         ObservableList<AppoinmentDoctorList> doctors = dbOp.handleNeededDoctor(query);
         doctorTableView.setItems(doctors);
