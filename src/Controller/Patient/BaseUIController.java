@@ -8,6 +8,8 @@ import Controller.Main;
 import Model.Admin;
 import Model.Doctor;
 import Model.User;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -99,7 +101,14 @@ public class BaseUIController implements Initializable {
             User.resetUser();
         }
         Main.stageRef.setScene(change);
+        try (FileWriter writer = new FileWriter("confedintioal.data")) {
+            writer.write("");
+        } catch (IOException e) {
+            System.out.println("An error occurred while writing to the file.");
+            e.printStackTrace();
+        }
     }
+    
 
     public void addFeature() throws Exception {
         if ("doctor".equals(Main.role)) {

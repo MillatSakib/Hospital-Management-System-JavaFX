@@ -3,6 +3,8 @@ package Model;
 import Controller.Auth.Login.LoginController;
 import Controller.Auth.Register.RegisterController;
 import Controller.Main;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -52,6 +54,15 @@ public class MYSQLDatabaseOp {
         }
     }
 
+    private void userDataFileUpdaste(String email, String pass){
+        
+    try (FileWriter writer = new FileWriter("confedintioal.data")) {
+            writer.write(email+"\n"+pass);
+        } catch (IOException e) {
+            System.out.println("An error occurred while writing to the file.");
+            e.printStackTrace();
+        }
+    }
     public void handleQueryLogin(String sqlCommand) throws Exception {
         String dbName = "hospital-manament-system";
         String fullURL = URL + "/" + dbName;
@@ -78,10 +89,10 @@ public class MYSQLDatabaseOp {
                     } else {
                         userData = new User(id, name, role, imageURL, email, password, phone, age, gender);
                     }
-
+                    userDataFileUpdaste(email,password);
                     Main.role = resultSet.getString("Role");
                     Main.imgURL = resultSet.getString("ImageURL");
-                    Main.DoctorID = doctorID!=null ? doctorID : "" ;
+                    Main.DoctorID = doctorID != null ? doctorID : "";
                     //closing the window after successfully login
                     Parent root = FXMLLoader.load(getClass().getResource("/View/Patient/BaseUI.fxml"));
                     Scene change = new Scene(root);
@@ -151,6 +162,7 @@ public class MYSQLDatabaseOp {
                 Parent root = FXMLLoader.load(getClass().getResource("/View/Patient/BaseUI.fxml"));
                 Scene change = new Scene(root);
                 Main.stageRef.setScene(change);
+                userDataFileUpdaste(email,password);
             } else {
                 RegisterController.faildmsgSet.setText("Registration Fainld!");
             }
