@@ -40,7 +40,6 @@ public class AppoinmentController implements Initializable {
         String selectedValue = specialisDoctors.getValue();
         String problem = getProblem.getText();
         if (selectedValue == null || problem == null || problem.isEmpty()) {
-            System.out.println("Please provide all details!");
             Alert alert = new Alert(Alert.AlertType.WARNING, "Please provide all details!", ButtonType.OK);
             alert.show();
             return;

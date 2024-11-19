@@ -408,5 +408,29 @@ public class MYSQLDatabaseOp {
         }
         return allPatient;
     }
+            
+              public boolean handleUpdateUserData(String deleteQuery) throws SQLException {
+    String dbName = "hospital-manament-system";
+    String fullURL = URL + "/" + dbName;
+
+    try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD);
+         Statement statement = connection.createStatement()) {
+        int rowsAffected = statement.executeUpdate(deleteQuery);
+        if (rowsAffected > 0) {
+            return true; 
+        } else {
+            Platform.runLater(() -> {
+                LoginController.setTextOther.setText("No records found to delete.");
+            });
+            return false;
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        Platform.runLater(() -> {
+            LoginController.setTextOther.setText("Error executing delete query.");
+        });
+        throw new SQLException("Error occurred while executing delete query: " + e.getMessage(), e);
+    }
+}
 
 }

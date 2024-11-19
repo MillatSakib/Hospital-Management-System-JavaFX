@@ -3,7 +3,6 @@
 <?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -19,21 +18,19 @@
             <Font name="System Bold" size="31.0" />
          </font>
       </Text>
-      <TextField layoutX="78.0" layoutY="152.0" promptText="Enter Your Name" />
-      <TextField layoutX="268.0" layoutY="152.0" promptText="Inter Your Image URL" />
-      <TextField layoutX="456.0" layoutY="152.0" promptText="Enter Your Phone Number" />
+      <TextField fx:id="name" layoutX="78.0" layoutY="152.0" promptText="Enter Your Name" />
+      <TextField fx:id="imgURL" layoutX="268.0" layoutY="152.0" promptText="Inter Your Image URL" />
+      <TextField fx:id="phoneNumber" layoutX="456.0" layoutY="152.0" promptText="Enter Your Phone Number" />
       <Text layoutX="78.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name" />
       <Text layoutX="267.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Image URL(Optional)" />
       <Text layoutX="458.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Phone Number(Optional)" />
-      <TextField layoutX="651.0" layoutY="152.0" promptText="Enter Your Email Address" />
+      <TextField fx:id="email" layoutX="651.0" layoutY="152.0" promptText="Enter Your Email Address" />
       <Text layoutX="651.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" />
-      <TextField layoutX="268.0" layoutY="215.0" promptText="Enter Your Age" />
+      <TextField fx:id="age" layoutX="268.0" layoutY="215.0" promptText="Enter Your Age" />
       <Text layoutX="269.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Age" />
       <Text layoutX="456.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gender" />
-      <Text layoutX="389.0" layoutY="271.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Address(Optional)" />
-      <TextArea layoutX="296.0" layoutY="279.0" prefHeight="113.0" prefWidth="280.0" promptText="Enter Your Address" />
-      <Button layoutX="324.0" layoutY="410.0" mnemonicParsing="false" onAction="#handleUpdateProfile" text="UPDATE PROFILE" />
-      <ComboBox layoutX="455.0" layoutY="215.0" prefWidth="150.0" promptText="Select Right One" />
-      <Button layoutX="442.0" layoutY="410.0" mnemonicParsing="false" text="Apply As Doctor" />
+      <Button layoutX="324.0" layoutY="272.0" mnemonicParsing="false" onAction="#handleUpdateProfile" text="UPDATE PROFILE" />
+      <ComboBox fx:id="gender" layoutX="455.0" layoutY="215.0" prefWidth="150.0" promptText="Select Right One" />
+      <Button layoutX="442.0" layoutY="272.0" mnemonicParsing="false" text="Apply As Doctor" />
    </children>
 </AnchorPane>

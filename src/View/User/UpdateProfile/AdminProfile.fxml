@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="463.0" prefWidth="808.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="Controller.User.UpdateProfile.AdminProfileController">
+<AnchorPane id="AnchorPane" prefHeight="463.0" prefWidth="808.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.User.UpdateProfile.AdminProfileController">
     <stylesheets>
         <URL value="@adminprofile.css" />
     </stylesheets>
@@ -19,20 +19,20 @@
             <Font name="System Bold" size="31.0" />
          </font>
       </Text>
-      <TextField layoutX="58.0" layoutY="132.0" promptText="Enter Your Name" />
-      <TextField layoutX="248.0" layoutY="132.0" promptText="Inter Your Image URL" />
-      <TextField layoutX="436.0" layoutY="132.0" promptText="Enter Your Phone Number" />
+      <TextField fx:id="name" layoutX="58.0" layoutY="132.0" promptText="Enter Your Name" />
+      <TextField fx:id="imgURL" layoutX="248.0" layoutY="132.0" promptText="Inter Your Image URL" />
+      <TextField fx:id="phoneNumber" layoutX="436.0" layoutY="132.0" promptText="Enter Your Phone Number" />
       <Text layoutX="58.0" layoutY="124.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name" />
       <Text layoutX="247.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Image URL" />
       <Text layoutX="436.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Phone Number" />
-      <TextField layoutX="631.0" layoutY="132.0" promptText="Enter Your Email Address" />
+      <TextField fx:id="email" layoutX="631.0" layoutY="132.0" promptText="Enter Your Email Address" />
       <Text layoutX="631.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" />
-      <TextField layoutX="248.0" layoutY="195.0" promptText="Enter Your Age" />
+      <TextField fx:id="age" layoutX="248.0" layoutY="195.0" promptText="Enter Your Age" />
       <Text layoutX="249.0" layoutY="187.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Age" />
       <Text layoutX="436.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gender" />
       <Text layoutX="394.0" layoutY="251.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Address" />
-      <TextArea layoutX="276.0" layoutY="259.0" prefHeight="113.0" prefWidth="280.0" promptText="Enter Your Address" />
+      <TextArea fx:id="address" layoutX="276.0" layoutY="259.0" prefHeight="113.0" prefWidth="280.0" promptText="Enter Your Address" />
       <Button layoutX="363.0" layoutY="390.0" mnemonicParsing="false" onAction="#handleUpdateProfile" text="UPDATE PROFILE" />
-      <ComboBox layoutX="435.0" layoutY="195.0" prefWidth="150.0" promptText="Select Right One" />
+      <ComboBox fx:id="gender" layoutX="435.0" layoutY="195.0" prefWidth="150.0" promptText="Select Right One" />
    </children>
 </AnchorPane>
