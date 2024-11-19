@@ -54,7 +54,7 @@ private TableColumn<AllPrescription, String> doctorPrescription;
         
         
         MYSQLDatabaseOp database = new MYSQLDatabaseOp();
-         String query = "SELECT * FROM appoinmentdetails WHERE PatientID='"+User.getID()+"' AND Visited='"+1+"'";
+         String query = "SELECT * FROM appoinmentdetails WHERE Email='"+User.getEmail()+"' AND Visited='"+1+"'";
     try {
         ObservableList<AllPrescription> prescriptions = database.prescriptions(query);
         AllPrescriptionTable.setItems(prescriptions);

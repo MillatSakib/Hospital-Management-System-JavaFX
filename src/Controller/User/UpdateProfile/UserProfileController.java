@@ -6,7 +6,6 @@ package Controller.User.UpdateProfile;
 
 import Controller.Main;
 import Controller.Patient.BaseUIController;
-import Model.Admin;
 import Model.MYSQLDatabaseOp;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -56,9 +55,16 @@ public class UserProfileController implements Initializable {
         String getGender = gender.getValue();
         if (updateValidation()) {
 
-            String query = "UPDATE users SET Name='" + updateName + "', ImageURL='" + updateImgURL + "', ContactNumber='" + updatePhoneNumber + "', Email='" + updateGmail + "', Gender='" + getGender + "', Age='" + updateAge + "' where ID=" + Admin.getID() + "";
+            String query = "UPDATE users SET Name='" + updateName + "', ImageURL='" + updateImgURL + "', ContactNumber='" + updatePhoneNumber + "', Email='" + updateGmail + "', Gender='" + getGender + "', Age='" + updateAge + "' where Email='" + User.getEmail() + "'";
             MYSQLDatabaseOp updateUserData = new MYSQLDatabaseOp();
             if (updateUserData.handleUpdateUserData(query)) {
+                User.setName(updateName);
+                User.setImageURL(updateImgURL);
+                User.setPhone(updatePhoneNumber);
+                User.setEmail(updateGmail);
+                User.setAge(updateAge);
+                User.setGender(getGender);
+                
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Your profile Updated Successfully!", ButtonType.OK);
                 alert.show();
             }
@@ -130,6 +136,10 @@ public class UserProfileController implements Initializable {
                 }
             }
         });
+        gender.setItems(FXCollections.observableArrayList("Male", "Female", "Other"));
+        if ("Male".equals(User.getGender()) || "Female".equals(User.getGender()) || "Other".equals(User.getGender())) {
+            gender.setValue(User.getGender());
+        }
         name.setText(User.getName());
         imgURL.setText(User.getImageURL());
         phoneNumber.setText(User.getPhone());
@@ -138,15 +148,12 @@ public class UserProfileController implements Initializable {
         String updateName = name.getText();
         String updateGmail = email.getText();
         String updateAge = age.getText();
-        String getGender = gender.getValue();
-        if("".equals(updateName) || updateName == null || "".equals(updateGmail) || updateGmail == null ||"".equals(updateAge) || updateAge == null || "".equals(getGender) || getGender == null){
+        String updateGetGender = gender.getValue();
+        if("".equals(updateName) || updateName == null || "".equals(updateGmail) || updateGmail == null ||"".equals(updateAge) || updateAge == null || "".equals(updateGetGender) || updateGetGender == null){
         applyAsDoctorattr.setDisable(true);
             applyAsDoctorattr.setText("Apply As A Doctor");
         }
-        gender.setItems(FXCollections.observableArrayList("Male", "Female", "Other"));
-        if ("Male".equals(User.getGender()) || "Female".equals(User.getGender()) || "Other".equals(User.getGender())) {
-            gender.setValue(User.getGender());
-        }
+        
         if (Main.DoctorID.length() > 0) {
             applyAsDoctorattr.setDisable(true);
             applyAsDoctorattr.setText("Already Applied");

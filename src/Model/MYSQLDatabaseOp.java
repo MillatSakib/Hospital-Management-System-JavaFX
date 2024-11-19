@@ -142,7 +142,7 @@ public class MYSQLDatabaseOp {
         String sqlCheck = "SELECT COUNT(*) FROM Users WHERE Email = ?";
         String sqlInsert = "INSERT INTO Users (Email, Password, Role) VALUES (?, ?, ?)";
 
-        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); PreparedStatement checkStatement = connection.prepareStatement(sqlCheck); PreparedStatement insertStatement = connection.prepareStatement(sqlInsert)) {
+        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); PreparedStatement checkStatement = connection.prepareStatement(sqlCheck); PreparedStatement insertStatement = connection.prepareStatement(sqlInsert,Statement.RETURN_GENERATED_KEYS)) {
 
             checkStatement.setString(1, email);
             ResultSet resultSet = checkStatement.executeQuery();
@@ -151,13 +151,21 @@ public class MYSQLDatabaseOp {
                 RegisterController.faildmsgSet.setText("Email already exists.");
                 return;
             }
-
+            User.Email=email;
+            Main.role = "user";
+            Main.imgURL="/View/images/person.png";
             insertStatement.setString(1, email);
             insertStatement.setString(2, password);
             insertStatement.setString(3, "user");
             int rowsInserted = insertStatement.executeUpdate();
 
             if (rowsInserted > 0) {
+                  // Retrieve the generated primary key
+            ResultSet keys = insertStatement.getGeneratedKeys();
+            if (keys.next()) {
+                int userId = keys.getInt(1);
+                User.ID = userId;
+            }
                 Main.role = "user";
                 Parent root = FXMLLoader.load(getClass().getResource("/View/Patient/BaseUI.fxml"));
                 Scene change = new Scene(root);

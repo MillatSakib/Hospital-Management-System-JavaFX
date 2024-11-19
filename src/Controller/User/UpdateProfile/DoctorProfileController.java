@@ -53,7 +53,7 @@ public class DoctorProfileController implements Initializable {
         String updateAddress = address.getText();
         if (updateValidation()) {
 
-            String query = "UPDATE users SET Name='" + updateName + "', ImageURL='" + updateImgURL + "', ContactNumber='" + updatePhoneNumber + "', Email='" + updateGmail + "', Gender='" + getGender + "', Age='" + updateAge + "', Address='" + updateAddress + "' where ID=" + Admin.getID() + "";
+            String query = "UPDATE users SET Name='" + updateName + "', ImageURL='" + updateImgURL + "', ContactNumber='" + updatePhoneNumber + "', Email='" + updateGmail + "', Gender='" + getGender + "', Age='" + updateAge + "', Address='" + updateAddress + "' where ID=" + Doctor.getID() + "";
             MYSQLDatabaseOp updateUserData = new MYSQLDatabaseOp();
             if (updateUserData.handleUpdateUserData(query)) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Your profile Updated Successfully!", ButtonType.OK);

@@ -28,7 +28,12 @@
             <TableColumn fx:id="address" prefWidth="154.0" text="Address" />
         </columns>
       </TableView>
-      <Button layoutX="329.0" layoutY="412.0" mnemonicParsing="false" onAction="#handleAproveDoctor" style="-fx-background-color: none; -fx-border-color: white; -fx-border-radius: 50px; -fx-padding: 10px 15px;" text="Aprove As Doctor">
+      <Button layoutX="268.0" layoutY="412.0" mnemonicParsing="false" onAction="#handleAproveDoctor" style="-fx-background-color: none; -fx-border-color: white; -fx-border-radius: 50px; -fx-padding: 10px 15px;" text="Aprove As Doctor">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button layoutX="426.0" layoutY="412.0" mnemonicParsing="false" onAction="#handleDeclineDoctor" style="-fx-background-color: none; -fx-border-color: white; -fx-border-radius: 50px; -fx-padding: 10px 15px;" text="Decline As Doctor">
          <font>
             <Font size="15.0" />
          </font>
