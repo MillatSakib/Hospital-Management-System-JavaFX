@@ -2,13 +2,37 @@
 
 <?import java.net.URL?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="Controller.Doctor.GivePrescription.GivePrescriptionController">
+<AnchorPane id="AnchorPane" prefHeight="464.0" prefWidth="806.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Doctor.GivePrescription.GivePrescriptionController">
     <stylesheets>
         <URL value="@giveprescription.css" />
     </stylesheets>
    <children>
-      <Button layoutX="66.0" layoutY="63.0" mnemonicParsing="false" onAction="#handlebutton" text="Button" />
+      <Text layoutX="275.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Give Prescription">
+         <font>
+            <Font name="System Bold" size="32.0" />
+         </font>
+      </Text>
+      <TableView fx:id="appoinmentPatientList" layoutX="18.0" layoutY="82.0" prefHeight="200.0" prefWidth="780.0">
+        <columns>
+          <TableColumn fx:id="patientName" prefWidth="206.0" text="Patient Name" />
+            <TableColumn fx:id="patientID" text="ID" />
+          <TableColumn fx:id="gender" prefWidth="100.0" text="Gender" />
+            <TableColumn fx:id="age" prefWidth="59.0" text="Age" />
+            <TableColumn fx:id="problem" prefWidth="326.0" text="Problem" />
+        </columns>
+      </TableView>
+      <TextArea fx:id="prescription" layoutX="18.0" layoutY="292.0" prefHeight="162.0" prefWidth="658.0" wrapText="true" />
+      <Button layoutX="703.0" layoutY="352.0" mnemonicParsing="false" onAction="#handleSubmit" style="-fx-background-color: none; -fx-cursor: pointer; -fx-border-color: black; -fx-border-radius: 50px; -fx-padding: 10px 20px;" text="Submit">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

@@ -70,6 +70,13 @@ public class ApplyAsDoctorController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        doctorID.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                if (!newValue.matches("\\d*")) {
+                    doctorID.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
         specialization.setItems(FXCollections.observableArrayList("Cardiologist", "Neurologist", "Dermatologist"));
     }
 

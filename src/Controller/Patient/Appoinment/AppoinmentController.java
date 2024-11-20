@@ -48,7 +48,6 @@ public class AppoinmentController implements Initializable {
         String query;
         if("doctor".equals(Main.role)){
          query = "SELECT * FROM users WHERE Specialization='" + selectedValue + "' AND DoctorID!='"+Doctor.getDoctorID()+"' AND Role='doctor'";
-            System.out.println(query);
         }else{
          query = "SELECT * FROM users WHERE Specialization='" + selectedValue + "' AND Role='doctor'";
         }

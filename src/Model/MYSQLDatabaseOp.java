@@ -5,6 +5,8 @@ import Controller.Auth.Register.RegisterController;
 import Controller.Main;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -24,6 +26,16 @@ public class MYSQLDatabaseOp {
     private final String USERNAME;
     private final String PASSWORD;
 
+
+    private static boolean isValidURL(String urlString) {
+        try {
+            new URL(urlString);
+            return true; 
+        } catch (MalformedURLException e) {
+            return false; 
+        }
+    }
+    
     public MYSQLDatabaseOp() {
         this.URL = "jdbc:mysql://localhost:3306";
         this.USERNAME = "root";
@@ -91,7 +103,7 @@ public class MYSQLDatabaseOp {
                     }
                     userDataFileUpdaste(email,password);
                     Main.role = resultSet.getString("Role");
-                    Main.imgURL = resultSet.getString("ImageURL");
+                    Main.imgURL = isValidURL(imageURL) ? imageURL : "/View/images/person.png";
                     Main.DoctorID = doctorID != null ? doctorID : "";
                     //closing the window after successfully login
                     Parent root = FXMLLoader.load(getClass().getResource("/View/Patient/BaseUI.fxml"));
@@ -183,8 +195,8 @@ public class MYSQLDatabaseOp {
 
     public boolean bookAppointment(String patientName, String doctorName, String patientID, String doctorID, String problem) {
 
-        String sqlCommand = "INSERT INTO appoinmentdetails (PatientName, DoctorName, PatientID, DoctorID, Problem, Prescription, Visited, GenerateID) "
-                + "VALUES (?, ?, ?, ?, ?, NULL, 0, NULL);";
+        String sqlCommand = "INSERT INTO appoinmentdetails (PatientName, DoctorName, PatientID, DoctorID, Problem, Prescription, Visited, GenerateID, ContactNumber, Email, Gender, Age) "
+                + "VALUES (?, ?, ?, ?, ?, NULL, 0, NULL, ?, ?, ?, ?);";
 
         String dbName = "hospital-manament-system";
         String fullURL = URL + "/" + dbName;
@@ -196,6 +208,10 @@ public class MYSQLDatabaseOp {
             statement.setString(3, patientID);
             statement.setString(4, doctorID);
             statement.setString(5, problem);
+            statement.setString(6, User.Phone);
+            statement.setString(7, User.Email);
+            statement.setString(8, User.Gender);
+            statement.setString(9, User.Age);
 
             int rowsInserted = statement.executeUpdate();
 
@@ -462,6 +478,60 @@ public class MYSQLDatabaseOp {
             });
             throw new SQLException("Error occurred while executing delete query: " + e.getMessage(), e);
         }
+    }
+    
+        public boolean givePrescription(String prescriptionQuery) throws SQLException {
+        String dbName = "hospital-manament-system";
+        String fullURL = URL + "/" + dbName;
+
+        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); Statement statement = connection.createStatement()) {
+            int rowsAffected = statement.executeUpdate(prescriptionQuery);
+            if (rowsAffected > 0) {
+                return true;
+            } else {
+                Platform.runLater(() -> {
+                    System.out.println("No records found to delete.");
+                });
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Platform.runLater(() -> {
+                System.out.println("Error executing submit query.");
+            });
+            throw new SQLException("Error occurred while executing delete query: " + e.getMessage(), e);
+        }
+    }
+    
+    public ObservableList<GivePrescription> handleAllAppoinmentForDoctor(String query)throws Exception{
+    String dbName = "hospital-manament-system";
+        String fullURL = URL + "/" + dbName;
+        ObservableList<GivePrescription> patientList = FXCollections.observableArrayList();
+
+        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); PreparedStatement statement = connection.prepareStatement(query); ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                String name = resultSet.getString("PatientName");
+                String gender = resultSet.getString("Gender");
+                String age = resultSet.getString("Age");
+                String problem = resultSet.getString("Problem");
+                String patientID = resultSet.getString("PatientID");
+                patientList.add(new GivePrescription(name, gender, age, problem,patientID));
+            }
+
+            if (patientList.isEmpty()) {
+                Platform.runLater(() -> {
+                    LoginController.setTextOther.setText("Error!! No matching doctor found.");
+                });
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Platform.runLater(() -> {
+                LoginController.setTextOther.setText("Login Failed! Server Error!");
+            });
+            throw new SQLException("Error occurred while fetching doctors: " + e.getMessage(), e);
+        }
+        return patientList;
+ 
     }
 
 }
