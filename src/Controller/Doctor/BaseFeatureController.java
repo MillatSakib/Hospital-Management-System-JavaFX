@@ -18,9 +18,10 @@ import javafx.scene.Parent;
  *
  * @author Sakib
  */
-public class BaseFeatureController implements Initializable {
+public class BaseFeatureController extends UIComponents implements Initializable {
 @FXML
-private void handleSceneAllPatients(ActionEvent e)throws Exception{
+@Override
+void handleSceneAllPatients(ActionEvent e)throws Exception{
 Parent updateRoleDoctor = FXMLLoader.load(getClass().getResource("/View/Doctor/AllPatient/AllPatient.fxml"));
 BaseUIController.ActiveUIRef.getChildren().setAll(updateRoleDoctor);
 }
@@ -30,7 +31,8 @@ Parent updateRoleDoctor = FXMLLoader.load(getClass().getResource("/View/Doctor/A
 BaseUIController.ActiveUIRef.getChildren().setAll(updateRoleDoctor);
 }
 @FXML
-private void handleSceneAllPrescription(ActionEvent e)throws Exception{
+@Override
+void handleSceneAllPrescription(ActionEvent e)throws Exception{
 Parent updateRoleDoctor = FXMLLoader.load(getClass().getResource("/View/Doctor/GivePrescription/GivePrescription.fxml"));
 BaseUIController.ActiveUIRef.getChildren().setAll(updateRoleDoctor);
 }
