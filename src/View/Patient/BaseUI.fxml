@@ -14,7 +14,7 @@
    <children>
       <AnchorPane prefHeight="557.0" prefWidth="173.0" style="-fx-background-color: #FF8300;">
          <children>
-            <Button layoutX="5.0" layoutY="86.0" mnemonicParsing="false" onAction="#changeSceneAppoinment" prefHeight="52.0" prefWidth="159.0" style="-fx-background-color: none; -fx-cursor: pointer; -fx-border-color: white; -fx-border-radius: 50px;" text="APPOINMENT" textFill="WHITE">
+            <Button layoutX="5.0" layoutY="86.0" mnemonicParsing="false" onAction="#changeSceneAppoinment" prefHeight="52.0" prefWidth="159.0" style="-fx-background-color: none; -fx-cursor: pointer; -fx-border-color: white; -fx-border-radius: 50px;" text="APPOINTMENT" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
@@ -24,7 +24,7 @@
                   <Font name="System Bold" size="17.0" />
                </font>
             </Button>
-            <Button layoutX="6.0" layoutY="200.0" mnemonicParsing="false" onAction="#handleSceneTakeBed" prefHeight="52.0" prefWidth="159.0" style="-fx-background-color: none; -fx-cursor: pointer; -fx-border-color: white; -fx-border-radius: 50px;" text="All Appoinment" textFill="WHITE">
+            <Button layoutX="6.0" layoutY="200.0" mnemonicParsing="false" onAction="#handleSceneTakeBed" prefHeight="52.0" prefWidth="159.0" style="-fx-background-color: none; -fx-cursor: pointer; -fx-border-color: white; -fx-border-radius: 50px;" text="All Appointment" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
