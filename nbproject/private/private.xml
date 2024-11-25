@@ -5,10 +5,13 @@
         <group>
             <file>file:/C:/Users/Sakib/Downloads/Hospital-Management-System-JavaFX/src/Model/MYSQLDatabaseOp.java</file>
             <file>file:/C:/Users/Sakib/Downloads/Hospital-Management-System-JavaFX/src/Controller/User/UpdateProfile/DoctorProfileController.java</file>
+            <file>file:/C:/Users/Sakib/Downloads/Hospital-Management-System-JavaFX/src/Controller/Doctor/BaseFeatureController.java</file>
             <file>file:/C:/Users/Sakib/Downloads/Hospital-Management-System-JavaFX/src/Model/GivePrescription.java</file>
+            <file>file:/C:/Users/Sakib/Downloads/Hospital-Management-System-JavaFX/src/Controller/Admin/FXMLController.java</file>
             <file>file:/C:/Users/Sakib/Downloads/Hospital-Management-System-JavaFX/src/Controller/Doctor/GivePrescription/GivePrescriptionController.java</file>
             <file>file:/C:/Users/Sakib/Downloads/Hospital-Management-System-JavaFX/src/Model/Doctor.java</file>
             <file>file:/C:/Users/Sakib/Downloads/Hospital-Management-System-JavaFX/src/Controller/Main.java</file>
+            <file>file:/C:/Users/Sakib/Downloads/Hospital-Management-System-JavaFX/src/Controller/Doctor/UIComponents.java</file>
         </group>
     </open-files>
 </project-private>
