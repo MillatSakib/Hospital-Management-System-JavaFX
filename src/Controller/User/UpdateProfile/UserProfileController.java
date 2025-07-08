@@ -55,9 +55,8 @@ public class UserProfileController implements Initializable {
         String getGender = gender.getValue();
         if (updateValidation()) {
 
-            String query = "UPDATE users SET Name='" + updateName + "', ImageURL='" + updateImgURL + "', ContactNumber='" + updatePhoneNumber + "', Email='" + updateGmail + "', Gender='" + getGender + "', Age='" + updateAge + "' where Email='" + User.getEmail() + "'";
             MYSQLDatabaseOp updateUserData = new MYSQLDatabaseOp();
-            if (updateUserData.handleUpdateUserData(query)) {
+            if (updateUserData.handleUpdateUserData(User.getID(), updateName, updateAge, getGender, null, updatePhoneNumber)) {
                 User.setName(updateName);
                 User.setImageURL(updateImgURL);
                 User.setPhone(updatePhoneNumber);

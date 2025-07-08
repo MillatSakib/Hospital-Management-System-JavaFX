@@ -56,8 +56,7 @@ private TableColumn<AllPatientForDoctor, String> prescription;
         
         try{
             MYSQLDatabaseOp database = new MYSQLDatabaseOp();
-            String query = "SELECT * FROM appoinmentdetails WHERE DoctorID='"+Doctor.getDoctorID()+"' AND PatientName!='"+Doctor.getName()+"'";
-            ObservableList<AllPatientForDoctor> allPatients = database.allPatient(query);
+            ObservableList<AllPatientForDoctor> allPatients = database.allPatient(Doctor.getID());
             allPatientTable.setItems(allPatients);
         }catch(SQLException ee){
             System.out.println(ee);

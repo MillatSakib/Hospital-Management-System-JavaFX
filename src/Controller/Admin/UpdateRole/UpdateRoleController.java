@@ -36,10 +36,9 @@ public class UpdateRoleController implements Initializable {
             return;
         }
         String id = selectAproveDoctor.getId();
-        String query = "UPDATE users set Role='doctor' WHERE ID='" + id + "'";
         try {
             MYSQLDatabaseOp database = new MYSQLDatabaseOp();
-            boolean updateFlag = database.handleUpdateRole(query);
+            boolean updateFlag = database.handleUpdateRole(Integer.parseInt(id), "doctor");
             if (updateFlag == true) {
                 loadUser();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Aproved Sucessfully", ButtonType.OK);
@@ -63,10 +62,9 @@ public class UpdateRoleController implements Initializable {
             return;
         }
         String id = selectAproveDoctor.getId();
-        String query = "UPDATE users set Role='user', DoctorID='', Specialization=''  WHERE ID='" + id + "'";
         try {
             MYSQLDatabaseOp database = new MYSQLDatabaseOp();
-            boolean updateFlag = database.handleUpdateRole(query);
+            boolean updateFlag = database.handleUpdateRole(Integer.parseInt(id), "user");
             if (updateFlag == true) {
                 loadUser();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Declined Sucessfully", ButtonType.OK);
@@ -83,9 +81,8 @@ public class UpdateRoleController implements Initializable {
 
     void loadUser() {
         MYSQLDatabaseOp database = new MYSQLDatabaseOp();
-        String query = "Select * FROM users WHERE Role!='doctor' AND DoctorID IS NOT NULL AND DoctorID!=''";
         try {
-            ObservableList<AproveDoctor> appplyDoctor = database.allDoctorApply(query);
+            ObservableList<AproveDoctor> appplyDoctor = database.allDoctorApply();
             doctorApply.setItems(appplyDoctor);
         } catch (SQLException e) {
             System.out.println(e);

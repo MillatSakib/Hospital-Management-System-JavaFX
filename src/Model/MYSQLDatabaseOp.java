@@ -30,9 +30,9 @@ public class MYSQLDatabaseOp {
     private static boolean isValidURL(String urlString) {
         try {
             new URL(urlString);
-            return true; 
+            return true;
         } catch (MalformedURLException e) {
-            return false; 
+            return false;
         }
     }
     
@@ -75,36 +75,46 @@ public class MYSQLDatabaseOp {
             e.printStackTrace();
         }
     }
-    public void handleQueryLogin(String sqlCommand) throws Exception {
+    public void handleQueryLogin(String email, String password) throws Exception {
         String dbName = "hospital-manament-system";
         String fullURL = URL + "/" + dbName;
         User userData = null;
+        String sqlCommand = "SELECT u.UserID, u.Name, r.RoleName, u.ImageURL, u.Email, u.Password, u.ContactNumber, u.Age, u.Gender, u.Address, d.DoctorCode, s.SpecializationName " +
+                            "FROM Users u " +
+                            "JOIN Roles r ON u.RoleID = r.RoleID " +
+                            "LEFT JOIN Doctors d ON u.UserID = d.UserID " +
+                            "LEFT JOIN Specializations s ON d.SpecializationID = s.SpecializationID " +
+                            "WHERE u.Email = ? AND u.Password = ?";
+
         try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); PreparedStatement statement = connection.prepareStatement(sqlCommand)) {
+            statement.setString(1, email);
+            statement.setString(2, password);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    int id = resultSet.getInt("ID");
+                    int id = resultSet.getInt("UserID");
                     String name = resultSet.getString("Name");
-                    String role = resultSet.getString("Role");
+                    String role = resultSet.getString("RoleName");
                     String imageURL = resultSet.getString("ImageURL");
-                    String email = resultSet.getString("Email");
-                    String password = resultSet.getString("Password");
+                    String userEmail = resultSet.getString("Email");
+                    String userPassword = resultSet.getString("Password");
                     String phone = resultSet.getString("ContactNumber");
                     String age = resultSet.getString("Age");
                     String gender = resultSet.getString("Gender");
-                    String specialization = resultSet.getString("Specialization");
-                    String doctorID = resultSet.getString("DoctorID");
                     String address = resultSet.getString("Address");
+                    String doctorCode = resultSet.getString("DoctorCode");
+                    String specialization = resultSet.getString("SpecializationName");
+
                     if ("doctor".equals(role)) {
-                        userData = new Doctor(id, name, role, imageURL, email, password, phone, age, gender, specialization, doctorID, address);
+                        userData = new Doctor(id, name, imageURL, userEmail, userPassword, phone, age, gender, specialization, doctorCode, address);
                     } else if ("admin".equals(role)) {
-                        userData = new Admin(id, name, role, imageURL, email, password, phone, age, gender, address);
+                        userData = new Admin(id, name, imageURL, userEmail, userPassword, phone, age, gender, address);
                     } else {
-                        userData = new User(id, name, role, imageURL, email, password, phone, age, gender);
+                        userData = new User(id, name, imageURL, userEmail, userPassword, phone, age, gender);
                     }
-                    userDataFileUpdaste(email,password);
-                    Main.role = resultSet.getString("Role");
+                    userDataFileUpdaste(userEmail,userPassword);
+                    Main.role = role;
                     Main.imgURL = isValidURL(imageURL) ? imageURL : "/View/images/person.png";
-                    Main.DoctorID = doctorID != null ? doctorID : "";
+                    Main.DoctorID = doctorCode != null ? doctorCode : "";
                     //closing the window after successfully login
                     Parent root = FXMLLoader.load(getClass().getResource("/View/Patient/BaseUI.fxml"));
                     Scene change = new Scene(root);
@@ -116,19 +126,25 @@ public class MYSQLDatabaseOp {
         } catch (SQLException e) {
             e.printStackTrace();
             LoginController.setTextOther.setText("Login Faild! Server Error!");
-            throw new Exception("Error occurred during registration: " + e.getMessage());
+            throw new Exception("Error occurred during login: " + e.getMessage());
         }
     }
 
-    public ObservableList<AppoinmentDoctorList> handleNeededDoctor(String sqlCommand) throws SQLException {
+    public ObservableList<AppoinmentDoctorList> handleNeededDoctor(String specialization) throws SQLException {
         String dbName = "hospital-manament-system";
         String fullURL = URL + "/" + dbName;
         ObservableList<AppoinmentDoctorList> doctorList = FXCollections.observableArrayList();
+        String sqlCommand = "SELECT d.DoctorCode, u.Name FROM Doctors d " +
+                            "JOIN Users u ON d.UserID = u.UserID " +
+                            "JOIN Specializations s ON d.SpecializationID = s.SpecializationID " +
+                            "WHERE s.SpecializationName = ?";
 
-        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); PreparedStatement statement = connection.prepareStatement(sqlCommand); ResultSet resultSet = statement.executeQuery()) {
+        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); PreparedStatement statement = connection.prepareStatement(sqlCommand)) {
+            statement.setString(1, specialization);
+            ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 String name = resultSet.getString("Name");
-                String doctorId = resultSet.getString("DoctorID");
+                String doctorId = resultSet.getString("DoctorCode");
                 doctorList.add(new AppoinmentDoctorList(doctorId, name));
             }
 
@@ -152,7 +168,7 @@ public class MYSQLDatabaseOp {
         String fullURL = URL + "/" + dbName;
 
         String sqlCheck = "SELECT COUNT(*) FROM Users WHERE Email = ?";
-        String sqlInsert = "INSERT INTO Users (Email, Password, Role) VALUES (?, ?, ?)";
+        String sqlInsert = "INSERT INTO Users (Email, Password, RoleID) VALUES (?, ?, (SELECT RoleID FROM Roles WHERE RoleName = 'user'))";
 
         try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); PreparedStatement checkStatement = connection.prepareStatement(sqlCheck); PreparedStatement insertStatement = connection.prepareStatement(sqlInsert,Statement.RETURN_GENERATED_KEYS)) {
 
@@ -168,7 +184,6 @@ public class MYSQLDatabaseOp {
             Main.imgURL="/View/images/person.png";
             insertStatement.setString(1, email);
             insertStatement.setString(2, password);
-            insertStatement.setString(3, "user");
             int rowsInserted = insertStatement.executeUpdate();
 
             if (rowsInserted > 0) {
@@ -193,33 +208,22 @@ public class MYSQLDatabaseOp {
         }
     }
 
-    public boolean bookAppointment(String patientName, String doctorName, String patientID, String doctorID, String problem) {
+    public boolean bookAppointment(int patientId, int doctorId, String problem) {
 
-        String sqlCommand = "INSERT INTO appoinmentdetails (PatientName, DoctorName, PatientID, DoctorID, Problem, Prescription, Visited, GenerateID, ContactNumber, Email, Gender, Age) "
-                + "VALUES (?, ?, ?, ?, ?, NULL, 0, NULL, ?, ?, ?, ?);";
+        String sqlCommand = "INSERT INTO Appointments (PatientID, DoctorID, Problem, Visited) VALUES (?, ?, ?, 0)";
 
         String dbName = "hospital-manament-system";
         String fullURL = URL + "/" + dbName;
 
         try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); PreparedStatement statement = connection.prepareStatement(sqlCommand)) {
 
-            statement.setString(1, patientName);
-            statement.setString(2, doctorName);
-            statement.setString(3, patientID);
-            statement.setString(4, doctorID);
-            statement.setString(5, problem);
-            statement.setString(6, User.Phone);
-            statement.setString(7, User.Email);
-            statement.setString(8, User.Gender);
-            statement.setString(9, User.Age);
+            statement.setInt(1, patientId);
+            statement.setInt(2, doctorId);
+            statement.setString(3, problem);
 
             int rowsInserted = statement.executeUpdate();
 
-            if (rowsInserted > 0) {
-                return true;
-            } else {
-                return false;
-            }
+            return rowsInserted > 0;
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("Error occurred while handling the appointment: " + e.getMessage());
@@ -227,156 +231,154 @@ public class MYSQLDatabaseOp {
         return false;
     }
 
-    public ObservableList<AllPrescription> prescriptions(String query) throws SQLException {
+    public ObservableList<AllPrescription> prescriptions(int patientId) throws SQLException {
         String dbName = "hospital-manament-system";
         String fullURL = URL + "/" + dbName;
         ObservableList<AllPrescription> prescriptionList = FXCollections.observableArrayList();
+        String query = "SELECT u.Name AS DoctorName, d.DoctorCode, a.Problem, p.PrescriptionText " +
+                       "FROM Prescriptions p " +
+                       "JOIN Appointments a ON p.AppointmentID = a.AppointmentID " +
+                       "JOIN Doctors d ON a.DoctorID = d.DoctorID " +
+                       "JOIN Users u ON d.UserID = u.UserID " +
+                       "WHERE a.PatientID = ?";
 
-        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); PreparedStatement statement = connection.prepareStatement(query); ResultSet resultSet = statement.executeQuery()) {
+        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, patientId);
+            ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 String doctorName = resultSet.getString("DoctorName");
-                String doctorId = resultSet.getString("DoctorID");
+                String doctorId = resultSet.getString("DoctorCode");
                 String problem = resultSet.getString("Problem");
-                String prescription = resultSet.getString("Prescription");
+                String prescription = resultSet.getString("PrescriptionText");
 
                 prescriptionList.add(new AllPrescription(doctorName, doctorId, problem, prescription));
             }
 
-            if (prescriptionList.isEmpty()) {
-                Platform.runLater(() -> {
-                    LoginController.setTextOther.setText("Error!! No matching doctor found.");
-                });
-            }
         } catch (SQLException e) {
             e.printStackTrace();
-            Platform.runLater(() -> {
-                LoginController.setTextOther.setText("Login Failed! Server Error!");
-            });
-            throw new SQLException("Error occurred while fetching doctors: " + e.getMessage(), e);
+            throw new SQLException("Error occurred while fetching prescriptions: " + e.getMessage(), e);
         }
         return prescriptionList;
     }
 
-    public ObservableList<AllAppoinment> allAppoinmentPatient(String query) throws SQLException {
+    public ObservableList<AllAppoinment> allAppoinmentPatient(int patientId) throws SQLException {
         String dbName = "hospital-manament-system";
         String fullURL = URL + "/" + dbName;
-        ObservableList<AllAppoinment> prescriptionList = FXCollections.observableArrayList();
+        ObservableList<AllAppoinment> appointmentList = FXCollections.observableArrayList();
+        String query = "SELECT u.Name AS DoctorName, d.DoctorCode, a.Problem, a.Visited, u.ContactNumber " +
+                       "FROM Appointments a " +
+                       "JOIN Doctors d ON a.DoctorID = d.DoctorID " +
+                       "JOIN Users u ON d.UserID = u.UserID " +
+                       "WHERE a.PatientID = ?";
 
-        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); PreparedStatement statement = connection.prepareStatement(query); ResultSet resultSet = statement.executeQuery()) {
+        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, patientId);
+            ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 String contactNumber = resultSet.getString("ContactNumber");
-                String doctorId = resultSet.getString("DoctorID");
+                String doctorId = resultSet.getString("DoctorCode");
                 String problem = resultSet.getString("Problem");
-                String visited = resultSet.getString("Visited");
+                boolean visited = resultSet.getBoolean("Visited");
                 String doctorName = resultSet.getString("DoctorName");
-                if ("1".equals(visited)) {
-                    visited = "Done";
-                } else {
-                    visited = "Pending";
-                }
-                prescriptionList.add(new AllAppoinment(doctorName, doctorId, problem, visited, contactNumber));
-            }
+                String visitedStatus = visited ? "Done" : "Pending";
 
-            if (prescriptionList.isEmpty()) {
-                Platform.runLater(() -> {
-                    LoginController.setTextOther.setText("Error!! No matching doctor found.");
-                });
+                appointmentList.add(new AllAppoinment(doctorName, doctorId, problem, visitedStatus, contactNumber));
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            Platform.runLater(() -> {
-                LoginController.setTextOther.setText("Login Failed! Server Error!");
-            });
-            throw new SQLException("Error occurred while fetching doctors: " + e.getMessage(), e);
+            throw new SQLException("Error occurred while fetching appointments: " + e.getMessage(), e);
         }
-        return prescriptionList;
+        return appointmentList;
     }
 
-    public ObservableList<RemoveUserContainer> allUserForRemove(String query) throws SQLException {
+    public ObservableList<RemoveUserContainer> allUserForRemove() throws SQLException {
         String dbName = "hospital-manament-system";
         String fullURL = URL + "/" + dbName;
         ObservableList<RemoveUserContainer> allUserList = FXCollections.observableArrayList();
+        String query = "SELECT u.UserID, u.Name, r.RoleName, u.ContactNumber FROM Users u JOIN Roles r ON u.RoleID = r.RoleID";
 
         try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); PreparedStatement statement = connection.prepareStatement(query); ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 String name = resultSet.getString("Name");
-                String Id = resultSet.getString("ID");
-                String role = resultSet.getString("Role");
+                String Id = resultSet.getString("UserID");
+                String role = resultSet.getString("RoleName");
                 String contactNumber = resultSet.getString("ContactNumber");
 
                 allUserList.add(new RemoveUserContainer(name, Id, role, contactNumber));
             }
-
-            if (allUserList.isEmpty()) {
-                Platform.runLater(() -> {
-                    LoginController.setTextOther.setText("Error!! No matching found.");
-                });
-            }
         } catch (SQLException e) {
             e.printStackTrace();
-            Platform.runLater(() -> {
-                LoginController.setTextOther.setText("Login Failed! Server Error!");
-            });
-            throw new SQLException("Error occurred while fetching doctors: " + e.getMessage(), e);
+            throw new SQLException("Error occurred while fetching users: " + e.getMessage(), e);
         }
         return allUserList;
     }
 
-    public boolean handleRemoveUser(String deleteQuery) throws SQLException {
+    public boolean handleRemoveUser(int userId) throws SQLException {
         String dbName = "hospital-manament-system";
         String fullURL = URL + "/" + dbName;
+        String deleteUserQuery = "DELETE FROM Users WHERE UserID = ?";
+        String deleteDoctorQuery = "DELETE FROM Doctors WHERE UserID = ?";
+        String deletePatientQuery = "DELETE FROM Patients WHERE UserID = ?";
 
-        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); Statement statement = connection.createStatement()) {
-            int rowsAffected = statement.executeUpdate(deleteQuery);
-            if (rowsAffected > 0) {
-                return true;
-            } else {
-                Platform.runLater(() -> {
-                    LoginController.setTextOther.setText("No records found to delete.");
-                });
-                return false;
+
+        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD)) {
+            connection.setAutoCommit(false);
+            try (PreparedStatement deleteDoctorStmt = connection.prepareStatement(deleteDoctorQuery);
+                 PreparedStatement deletePatientStmt = connection.prepareStatement(deletePatientQuery);
+                 PreparedStatement deleteUserStmt = connection.prepareStatement(deleteUserQuery)) {
+
+                deleteDoctorStmt.setInt(1, userId);
+                deleteDoctorStmt.executeUpdate();
+
+                deletePatientStmt.setInt(1, userId);
+                deletePatientStmt.executeUpdate();
+
+                deleteUserStmt.setInt(1, userId);
+                int rowsAffected = deleteUserStmt.executeUpdate();
+
+                connection.commit();
+                return rowsAffected > 0;
+            } catch (SQLException e) {
+                connection.rollback();
+                throw e;
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            Platform.runLater(() -> {
-                LoginController.setTextOther.setText("Error executing delete query.");
-            });
-            throw new SQLException("Error occurred while executing delete query: " + e.getMessage(), e);
+            throw new SQLException("Error occurred while removing user: " + e.getMessage(), e);
         }
     }
 
-    public boolean handleUpdateRole(String deleteQuery) throws SQLException {
+    public boolean handleUpdateRole(int userId, String roleName) throws SQLException {
         String dbName = "hospital-manament-system";
         String fullURL = URL + "/" + dbName;
+        String updateQuery = "UPDATE Users SET RoleID = (SELECT RoleID FROM Roles WHERE RoleName = ?) WHERE UserID = ?";
 
-        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); Statement statement = connection.createStatement()) {
-            int rowsAffected = statement.executeUpdate(deleteQuery);
-            if (rowsAffected > 0) {
-                return true;
-            } else {
-                Platform.runLater(() -> {
-                    LoginController.setTextOther.setText("No records found to delete.");
-                });
-                return false;
-            }
+        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); PreparedStatement statement = connection.prepareStatement(updateQuery)) {
+            statement.setString(1, roleName);
+            statement.setInt(2, userId);
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
         } catch (SQLException e) {
             e.printStackTrace();
-            Platform.runLater(() -> {
-                LoginController.setTextOther.setText("Error executing delete query.");
-            });
-            throw new SQLException("Error occurred while executing delete query: " + e.getMessage(), e);
+            throw new SQLException("Error occurred while updating role: " + e.getMessage(), e);
         }
     }
 
-    public ObservableList<AproveDoctor> allDoctorApply(String query) throws SQLException {
+    public ObservableList<AproveDoctor> allDoctorApply() throws SQLException {
         String dbName = "hospital-manament-system";
         String fullURL = URL + "/" + dbName;
         ObservableList<AproveDoctor> appliedDoctor = FXCollections.observableArrayList();
+        // This query assumes users who applied for doctor have a specific role, e.g., 'pending_doctor'
+        // Or some other mechanism to identify them. I'll assume for now they are users with role 'user' who are not yet in the Doctors table.
+        String query = "SELECT u.UserID, u.Name, u.Email, u.Age, u.Gender, u.ContactNumber, u.Address " +
+                       "FROM Users u " +
+                       "WHERE u.RoleID = (SELECT RoleID FROM Roles WHERE RoleName = 'user') " +
+                       "AND u.UserID NOT IN (SELECT UserID FROM Doctors)";
 
         try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); PreparedStatement statement = connection.prepareStatement(query); ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 String name = resultSet.getString("Name");
-                String Id = resultSet.getString("ID");
+                String Id = resultSet.getString("UserID");
                 String email = resultSet.getString("Email");
                 String age = resultSet.getString("Age");
                 String gender = resultSet.getString("Gender");
@@ -385,28 +387,27 @@ public class MYSQLDatabaseOp {
 
                 appliedDoctor.add(new AproveDoctor(name, Id, email, age, gender, phone, address));
             }
-
-            if (appliedDoctor.isEmpty()) {
-                Platform.runLater(() -> {
-                    LoginController.setTextOther.setText("Error!! No matching found.");
-                });
-            }
         } catch (SQLException e) {
             e.printStackTrace();
-            Platform.runLater(() -> {
-                LoginController.setTextOther.setText("Login Failed! Server Error!");
-            });
-            throw new SQLException("Error occurred while fetching doctors: " + e.getMessage(), e);
+            throw new SQLException("Error occurred while fetching doctor applications: " + e.getMessage(), e);
         }
         return appliedDoctor;
     }
 
-    public ObservableList<AllPatientForDoctor> allPatient(String query) throws SQLException {
+    public ObservableList<AllPatientForDoctor> allPatient(int doctorId) throws SQLException {
         String dbName = "hospital-manament-system";
         String fullURL = URL + "/" + dbName;
         ObservableList<AllPatientForDoctor> allPatient = FXCollections.observableArrayList();
+        String query = "SELECT u.Name AS PatientName, p.PatientID, u.Email, u.Age, u.Gender, a.Problem, pr.PrescriptionText " +
+                       "FROM Appointments a " +
+                       "JOIN Patients p ON a.PatientID = p.PatientID " +
+                       "JOIN Users u ON p.UserID = u.UserID " +
+                       "LEFT JOIN Prescriptions pr ON a.AppointmentID = pr.AppointmentID " +
+                       "WHERE a.DoctorID = ?";
 
-        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); PreparedStatement statement = connection.prepareStatement(query); ResultSet resultSet = statement.executeQuery()) {
+        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, doctorId);
+            ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 String name = resultSet.getString("PatientName");
                 String Id = resultSet.getString("PatientID");
@@ -414,121 +415,124 @@ public class MYSQLDatabaseOp {
                 String age = resultSet.getString("Age");
                 String gender = resultSet.getString("Gender");
                 String problem = resultSet.getString("Problem");
-                String prescription = resultSet.getString("Prescription");
+                String prescription = resultSet.getString("PrescriptionText");
 
                 allPatient.add(new AllPatientForDoctor(name, Id, email, gender, age, problem, prescription));
             }
-
-            if (allPatient.isEmpty()) {
-                Platform.runLater(() -> {
-                    LoginController.setTextOther.setText("Error!! No matching found.");
-                });
-            }
         } catch (SQLException e) {
             e.printStackTrace();
-            Platform.runLater(() -> {
-                LoginController.setTextOther.setText("Login Failed! Server Error!");
-            });
-            throw new SQLException("Error occurred while fetching doctors: " + e.getMessage(), e);
+            throw new SQLException("Error occurred while fetching patients: " + e.getMessage(), e);
         }
         return allPatient;
     }
 
-    public boolean handleUpdateUserData(String deleteQuery) throws SQLException {
+    public boolean handleUpdateUserData(int userId, String name, String age, String gender, String address, String contactNumber) throws SQLException {
         String dbName = "hospital-manament-system";
         String fullURL = URL + "/" + dbName;
+        String updateQuery = "UPDATE Users SET Name = ?, Age = ?, Gender = ?, Address = ?, ContactNumber = ? WHERE UserID = ?";
 
-        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); Statement statement = connection.createStatement()) {
-            int rowsAffected = statement.executeUpdate(deleteQuery);
-            if (rowsAffected > 0) {
-                return true;
-            } else {
-                Platform.runLater(() -> {
-                    LoginController.setTextOther.setText("No records found to delete.");
-                });
-                return false;
-            }
+        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); PreparedStatement statement = connection.prepareStatement(updateQuery)) {
+            statement.setString(1, name);
+            statement.setString(2, age);
+            statement.setString(3, gender);
+            statement.setString(4, address);
+            statement.setString(5, contactNumber);
+            statement.setInt(6, userId);
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
         } catch (SQLException e) {
             e.printStackTrace();
-            Platform.runLater(() -> {
-                LoginController.setTextOther.setText("Error executing delete query.");
-            });
-            throw new SQLException("Error occurred while executing delete query: " + e.getMessage(), e);
+            throw new SQLException("Error occurred while updating user data: " + e.getMessage(), e);
         }
     }
 
-    public boolean handleApplyAsDoctor(String deleteQuery) throws SQLException {
+    public boolean handleApplyAsDoctor(int userId, String specializationName, String doctorCode) throws SQLException {
         String dbName = "hospital-manament-system";
         String fullURL = URL + "/" + dbName;
+        String insertDoctorQuery = "INSERT INTO Doctors (UserID, SpecializationID, DoctorCode) VALUES (?, (SELECT SpecializationID FROM Specializations WHERE SpecializationName = ?), ?)";
+        String updateUserRoleQuery = "UPDATE Users SET RoleID = (SELECT RoleID FROM Roles WHERE RoleName = 'doctor') WHERE UserID = ?";
 
-        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); Statement statement = connection.createStatement()) {
-            int rowsAffected = statement.executeUpdate(deleteQuery);
-            if (rowsAffected > 0) {
-                return true;
-            } else {
-                Platform.runLater(() -> {
-                    LoginController.setTextOther.setText("No records found to delete.");
-                });
-                return false;
+
+        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD)) {
+            connection.setAutoCommit(false);
+            try (PreparedStatement insertDoctorStmt = connection.prepareStatement(insertDoctorQuery);
+                 PreparedStatement updateUserRoleStmt = connection.prepareStatement(updateUserRoleQuery)) {
+
+                insertDoctorStmt.setInt(1, userId);
+                insertDoctorStmt.setString(2, specializationName);
+                insertDoctorStmt.setString(3, doctorCode);
+                insertDoctorStmt.executeUpdate();
+
+                updateUserRoleStmt.setInt(1, userId);
+                int rowsAffected = updateUserRoleStmt.executeUpdate();
+
+                connection.commit();
+                return rowsAffected > 0;
+            } catch (SQLException e) {
+                connection.rollback();
+                throw e;
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            Platform.runLater(() -> {
-                LoginController.setTextOther.setText("Error executing delete query.");
-            });
-            throw new SQLException("Error occurred while executing delete query: " + e.getMessage(), e);
-        }
-    }
-    
-        public boolean givePrescription(String prescriptionQuery) throws SQLException {
-        String dbName = "hospital-manament-system";
-        String fullURL = URL + "/" + dbName;
-
-        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); Statement statement = connection.createStatement()) {
-            int rowsAffected = statement.executeUpdate(prescriptionQuery);
-            if (rowsAffected > 0) {
-                return true;
-            } else {
-                Platform.runLater(() -> {
-                    System.out.println("No records found to delete.");
-                });
-                return false;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            Platform.runLater(() -> {
-                System.out.println("Error executing submit query.");
-            });
-            throw new SQLException("Error occurred while executing delete query: " + e.getMessage(), e);
+            throw new SQLException("Error occurred while applying as doctor: " + e.getMessage(), e);
         }
     }
     
-    public ObservableList<GivePrescription> handleAllAppoinmentForDoctor(String query)throws Exception{
+        public boolean givePrescription(int appointmentId, String prescriptionText) throws SQLException {
+        String dbName = "hospital-manament-system";
+        String fullURL = URL + "/" + dbName;
+        String prescriptionQuery = "INSERT INTO Prescriptions (AppointmentID, PrescriptionText) VALUES (?, ?)";
+        String updateAppointmentQuery = "UPDATE Appointments SET Visited = 1 WHERE AppointmentID = ?";
+
+        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD)) {
+            connection.setAutoCommit(false);
+            try (PreparedStatement prescriptionStmt = connection.prepareStatement(prescriptionQuery);
+                 PreparedStatement updateAppointmentStmt = connection.prepareStatement(updateAppointmentQuery)) {
+
+                prescriptionStmt.setInt(1, appointmentId);
+                prescriptionStmt.setString(2, prescriptionText);
+                prescriptionStmt.executeUpdate();
+
+                updateAppointmentStmt.setInt(1, appointmentId);
+                int rowsAffected = updateAppointmentStmt.executeUpdate();
+
+                connection.commit();
+                return rowsAffected > 0;
+            } catch (SQLException e) {
+                connection.rollback();
+                throw e;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Error occurred while giving prescription: " + e.getMessage(), e);
+        }
+    }
+    
+    public ObservableList<GivePrescription> handleAllAppoinmentForDoctor(int doctorId)throws Exception{
     String dbName = "hospital-manament-system";
         String fullURL = URL + "/" + dbName;
         ObservableList<GivePrescription> patientList = FXCollections.observableArrayList();
+        String query = "SELECT u.Name AS PatientName, u.Gender, u.Age, a.Problem, p.PatientID, a.AppointmentID " +
+                       "FROM Appointments a " +
+                       "JOIN Patients p ON a.PatientID = p.PatientID " +
+                       "JOIN Users u ON p.UserID = u.UserID " +
+                       "WHERE a.DoctorID = ? AND a.Visited = 0";
 
-        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); PreparedStatement statement = connection.prepareStatement(query); ResultSet resultSet = statement.executeQuery()) {
+        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, doctorId);
+            ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 String name = resultSet.getString("PatientName");
                 String gender = resultSet.getString("Gender");
                 String age = resultSet.getString("Age");
                 String problem = resultSet.getString("Problem");
                 String patientID = resultSet.getString("PatientID");
-                patientList.add(new GivePrescription(name, gender, age, problem,patientID));
-            }
-
-            if (patientList.isEmpty()) {
-                Platform.runLater(() -> {
-                    LoginController.setTextOther.setText("Error!! No matching doctor found.");
-                });
+                int appointmentID = resultSet.getInt("AppointmentID");
+                patientList.add(new GivePrescription(name, gender, age, problem, patientID, appointmentID));
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            Platform.runLater(() -> {
-                LoginController.setTextOther.setText("Login Failed! Server Error!");
-            });
-            throw new SQLException("Error occurred while fetching doctors: " + e.getMessage(), e);
+            throw new SQLException("Error occurred while fetching appointments for doctor: " + e.getMessage(), e);
         }
         return patientList;
  

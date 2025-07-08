@@ -4,7 +4,6 @@ public class User {
 
     protected static int ID;
     protected static String Name="";
-    protected static String Role="";
     protected static String ImageURL="";
     protected static String Email="";
     protected static String Password="";
@@ -14,10 +13,9 @@ public class User {
     
     
 
-    User(int ID, String Name, String Role, String ImageURL, String Email, String Password, String Phone, String Age, String Gender) {
+    User(int ID, String Name, String ImageURL, String Email, String Password, String Phone, String Age, String Gender) {
         User.ID = ID;
         User.Name = Name;
-        User.Role = Role;
         User.ImageURL = ImageURL;
         User.Email = Email;
         User.Password = Password;
@@ -29,7 +27,6 @@ public class User {
      public static void resetUser(){
     ID=0;
     Name = "";
-    Role = "";
     ImageURL = "";
     Email ="";
     Password = "";
@@ -38,16 +35,12 @@ public class User {
     Gender = "";
     }
 
-    public static String getID() {
-        return String.valueOf(ID);
+    public static int getID() {
+        return ID;
     }
 
     public static String getName() {
         return Name;
-    }
-
-    public static String getRole() {
-        return Role;
     }
 
     public static String getImageURL() {
@@ -80,10 +73,6 @@ public class User {
 
     public static void setName(String Name) {
         User.Name = Name;
-    }
-
-    public static void setRole(String Role) {
-        User.Role = Role;
     }
 
     public static void setImageURL(String ImageURL) {

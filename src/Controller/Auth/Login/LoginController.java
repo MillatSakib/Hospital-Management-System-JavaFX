@@ -45,7 +45,7 @@ public class LoginController implements Initializable {
             return;
         }
         MYSQLDatabaseOp dbOp = new MYSQLDatabaseOp();
-        dbOp.handleQueryLogin("SELECT * FROM users where email='" + email + "' AND Password='" + pass + "'");
+        dbOp.handleQueryLogin(email, pass);
 
     }
 

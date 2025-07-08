@@ -51,9 +51,8 @@ public class ApplyAsDoctorController implements Initializable {
             alert.show();
             return;
         }
-        String query = "UPDATE users SET Specialization='" + specializationText + "', DoctorID='" + doctorIDText + "' where ID=" + User.getID() + "";
         MYSQLDatabaseOp database = new MYSQLDatabaseOp();
-        boolean flag = database.handleApplyAsDoctor(query);
+        boolean flag = database.handleApplyAsDoctor(User.getID(), specializationText, doctorIDText);
         if (flag) {
             Main.DoctorID=doctorIDText;
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Applied Successfully!", ButtonType.OK);

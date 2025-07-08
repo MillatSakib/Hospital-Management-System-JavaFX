@@ -39,9 +39,8 @@ public class RemoveUserController implements Initializable {
         return;
         }
         String ID = selectedUser.getID();
-        String query = "DELETE FROM users WHERE ID = '" + ID + "'";
         try {
-            boolean deleteUserFlag = database.handleRemoveUser(query);
+            boolean deleteUserFlag = database.handleRemoveUser(Integer.parseInt(ID));
             if (deleteUserFlag == true) {
                 loadUser();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Deleted Sucessfully", ButtonType.OK);
@@ -58,9 +57,8 @@ public class RemoveUserController implements Initializable {
 
     private void loadUser() {
         MYSQLDatabaseOp database = new MYSQLDatabaseOp();
-        String query = "Select * FROM users WHERE Role!='admin'";
         try {
-            ObservableList<RemoveUserContainer> allUserOption = database.allUserForRemove(query);
+            ObservableList<RemoveUserContainer> allUserOption = database.allUserForRemove();
             removeUserTable.setItems(allUserOption);
         } catch (SQLException e) {
             System.out.println(e);
