@@ -30,6 +30,12 @@ private void handleRmoveUser(ActionEvent e)throws Exception{
     Parent updateRoleAdmin = FXMLLoader.load(getClass().getResource("/View/Admin/RemoveUser/RemoveUser.fxml"));
     BaseUIController.ActiveUIRef.getChildren().setAll(updateRoleAdmin);
 }
+
+@FXML
+private void handleApproveDoctor(ActionEvent e)throws Exception{
+    Parent approveDoctorAdmin = FXMLLoader.load(getClass().getResource("/View/Admin/ApproveDoctor.fxml"));
+    BaseUIController.ActiveUIRef.getChildren().setAll(approveDoctorAdmin);
+}
     /**
      * Initializes the controller class.
      */

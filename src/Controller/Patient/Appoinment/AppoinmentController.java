@@ -59,7 +59,7 @@ public class AppoinmentController implements Initializable {
         }
 
         MYSQLDatabaseOp database = new MYSQLDatabaseOp();
-        boolean success = database.bookAppointment(User.getID(), Integer.parseInt(selectedDoctor.idProperty().get()), getProblem.getText());
+        boolean success = database.bookAppointment(User.getID(), selectedDoctor.getDoctorId(), getProblem.getText());
         if (success) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Operation Completed");

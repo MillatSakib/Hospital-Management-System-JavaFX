@@ -20,5 +20,10 @@
             <Font name="System Bold" size="17.0" />
          </font>
       </Button>
+      <Button layoutX="3.0" layoutY="149.0" mnemonicParsing="false" onAction="#handleApproveDoctor" prefHeight="52.0" prefWidth="159.0" style="-fx-background-color: none; -fx-cursor: pointer; -fx-border-color: white; -fx-border-radius: 50px;" text="Approve Doctor" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
