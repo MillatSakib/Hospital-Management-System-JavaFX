@@ -1,4 +1,3 @@
-
 -- phpMyAdmin SQL Dump
 -- version 5.0.2
 -- https://www.phpmyadmin.net/
@@ -29,6 +28,7 @@ SET time_zone
 --
 -- Table structure for table `Roles`
 --
+DROP Database `hospital-manament-system`;
 CREATE Database `hospital-manament-system`;
 USE `hospital-manament-system`;
 
@@ -46,8 +46,7 @@ CREATE TABLE `Roles`
 -- Dumping data for table `Roles`
 --
 
-INSERT INTO `Roles` (`
-RoleName`)
+INSERT INTO `Roles` (`RoleName`)
 VALUES
   ('admin'),
   ('doctor'),
@@ -92,10 +91,8 @@ CREATE TABLE `Users`
 -- Dumping data for table `Users`
 --
 
-INSERT INTO `Users` (`
-Name`,
-`RoleID
-`, `ImageURL`, `Email`, `Password`, `Age`, `Gender`, `Address`, `ContactNumber`) VALUES
+INSERT INTO `Users` (`Name`,
+`RoleID`, `ImageURL`, `Email`, `Password`, `Age`, `Gender`, `Address`, `ContactNumber`) VALUES
 ('Md. Sohan Millat Sakib', 1, 'https://gitlab.com/millatsakib/funny-image/-/raw/main/sakib.png?ref_type=heads', 'millatsakib01@gmail.com', '123456', '23', 'Male', 'Rajshahi, Pabna, Bera', '121'),
 ('Mst. Mansina Isalm Mim', 2, 'https://gitlab.com/millatsakib/funny-image/-/raw/main/mansina.png?ref_type=heads', 'mansina@gmail.com', '123456', '23', 'Female', 'Rajshahi, Pabna, Bera', '01125436288'),
 ('Md. Sabbir Hossain', 2, 'https://gitlab.com/millatsakib/funny-image/-/raw/main/sabbir.png?ref_type=heads', 'sabbirhossain@gmail.com', '123456', '24', 'Male', 'Chottogram', '01723654188'),
@@ -127,8 +124,7 @@ CREATE TABLE `Specializations`
 -- Dumping data for table `Specializations`
 --
 
-INSERT INTO `Specializations` (`
-SpecializationName`)
+INSERT INTO `Specializations` (`SpecializationName`)
 VALUES
   ('Cardiologist'),
   ('Neurologist'),
@@ -164,10 +160,8 @@ CREATE TABLE `Doctors`
 -- Dumping data for table `Doctors`
 --
 
-INSERT INTO `Doctors` (`
-UserID`,
-`DoctorCode
-`, `SpecializationID`) VALUES
+INSERT INTO `Doctors` (`UserID`,
+`DoctorCode`, `SpecializationID`) VALUES
 (2, '222902036', 1),
 (3, '221935412', 1),
 (4, '642051', 2),
@@ -198,8 +192,7 @@ CREATE TABLE `Patients`
 -- Dumping data for table `Patients`
 --
 
-INSERT INTO `Patients` (`
-UserID`)
+INSERT INTO `Patients` (`UserID`)
 VALUES
   (8),
   (9),
@@ -298,8 +291,7 @@ CREATE TABLE `Departments`
 -- Dumping data for table `Departments`
 --
 
-INSERT INTO `Departments` (`
-DepartmentName`)
+INSERT INTO `Departments` (`DepartmentName`)
 VALUES
   ('Cardiology'),
   ('Neurology'),
@@ -326,6 +318,21 @@ CREATE TABLE `DoctorDepartment`
   FOREIGN KEY
 (`DepartmentID`) REFERENCES `Departments`
 (`DepartmentID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Table structure for table `NewDoctor`
+--
+
+CREATE TABLE `NewDoctor`
+(
+  `NewDoctorID` INT(11) NOT NULL AUTO_INCREMENT,
+  `UserID` INT(11) NOT NULL,
+  `SpecializationID` INT(11) DEFAULT NULL,
+  `DoctorCode` VARCHAR(20) DEFAULT NULL,
+  PRIMARY KEY (`NewDoctorID`),
+  FOREIGN KEY (`UserID`) REFERENCES `Users`(`UserID`),
+  FOREIGN KEY (`SpecializationID`) REFERENCES `Specializations`(`SpecializationID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 COMMIT;

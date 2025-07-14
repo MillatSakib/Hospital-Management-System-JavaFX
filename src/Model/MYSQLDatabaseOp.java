@@ -435,10 +435,7 @@ public class MYSQLDatabaseOp {
         ObservableList<AproveDoctor> appliedDoctor = FXCollections.observableArrayList();
         // This query assumes users who applied for doctor have a specific role, e.g., 'pending_doctor'
         // Or some other mechanism to identify them. I'll assume for now they are users with role 'user' who are not yet in the Doctors table.
-        String query = "SELECT u.UserID, u.Name, u.Email, u.Age, u.Gender, u.ContactNumber, u.Address " +
-                       "FROM Users u " +
-                       "WHERE u.RoleID = (SELECT RoleID FROM Roles WHERE RoleName = 'user') " +
-                       "AND u.UserID NOT IN (SELECT UserID FROM Doctors)";
+        String query = "SELECT u.UserID, u.Name, u.Email, u.Age, u.Gender, u.ContactNumber, u.Address, nd.SpecializationID, nd.DoctorCode " + "FROM Users u " + "JOIN NewDoctor nd ON u.UserID = nd.UserID " + "WHERE u.RoleID = (SELECT RoleID FROM Roles WHERE RoleName = 'user')";
 
         try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); PreparedStatement statement = connection.prepareStatement(query); ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
@@ -528,23 +525,18 @@ public class MYSQLDatabaseOp {
     public boolean handleApplyAsDoctor(int userId, String specializationName, String doctorCode) throws SQLException {
         String dbName = "hospital-manament-system";
         String fullURL = URL + "/" + dbName;
-        String insertDoctorQuery = "INSERT INTO Doctors (UserID, SpecializationID, DoctorCode) VALUES (?, (SELECT SpecializationID FROM Specializations WHERE SpecializationName = ?), ?)";
-        String updateUserRoleQuery = "UPDATE Users SET RoleID = (SELECT RoleID FROM Roles WHERE RoleName = 'doctor') WHERE UserID = ?";
+        String insertDoctorQuery = "INSERT INTO NewDoctor (UserID, SpecializationID, DoctorCode) VALUES (?, (SELECT SpecializationID FROM Specializations WHERE SpecializationName = ?), ?)";
 
 
         try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD)) {
             connection.setAutoCommit(false);
-            try (PreparedStatement insertDoctorStmt = connection.prepareStatement(insertDoctorQuery);
-                 PreparedStatement updateUserRoleStmt = connection.prepareStatement(updateUserRoleQuery)) {
+            try (PreparedStatement insertDoctorStmt = connection.prepareStatement(insertDoctorQuery);) {
 
                 insertDoctorStmt.setInt(1, userId);
                 insertDoctorStmt.setString(2, specializationName);
                 insertDoctorStmt.setString(3, doctorCode);
-                insertDoctorStmt.executeUpdate();
-
-                updateUserRoleStmt.setInt(1, userId);
-                int rowsAffected = updateUserRoleStmt.executeUpdate();
-
+                int rowsAffected = insertDoctorStmt.executeUpdate();
+                System.out.println(rowsAffected);
                 connection.commit();
                 return rowsAffected > 0;
             } catch (SQLException e) {
