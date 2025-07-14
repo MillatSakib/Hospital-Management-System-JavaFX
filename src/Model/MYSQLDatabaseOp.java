@@ -504,18 +504,19 @@ public class MYSQLDatabaseOp {
         return allPatient;
     }
 
-    public boolean handleUpdateUserData(int userId, String name, String age, String gender, String address, String contactNumber) throws SQLException {
+    public boolean handleUpdateUserData(int userId, String name,String imgUrl, String age, String gender, String address, String contactNumber) throws SQLException {
         String dbName = "hospital-manament-system";
         String fullURL = URL + "/" + dbName;
-        String updateQuery = "UPDATE Users SET Name = ?, Age = ?, Gender = ?, Address = ?, ContactNumber = ? WHERE UserID = ?";
+        String updateQuery = "UPDATE Users SET Name = ?, ImageURL = ?, Age = ?, Gender = ?, Address = ?, ContactNumber = ? WHERE UserID = ?";
 
         try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); PreparedStatement statement = connection.prepareStatement(updateQuery)) {
             statement.setString(1, name);
-            statement.setString(2, age);
-            statement.setString(3, gender);
-            statement.setString(4, address);
-            statement.setString(5, contactNumber);
-            statement.setInt(6, userId);
+            statement.setString(2, imgUrl);
+            statement.setString(3, age);
+            statement.setString(4, gender);
+            statement.setString(5, address);
+            statement.setString(6, contactNumber);
+            statement.setInt(7, userId);
             int rowsAffected = statement.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
@@ -655,6 +656,22 @@ public class MYSQLDatabaseOp {
             e.printStackTrace();
             throw new SQLException("Error occurred while adding new doctor: " + e.getMessage(), e);
         }
+    }
+
+    public boolean hasAppliedAsDoctor(int userId) throws SQLException {
+        String dbName = "hospital-manament-system";
+        String fullURL = URL + "/" + dbName;
+        String query = "SELECT COUNT(*) FROM NewDoctor WHERE UserID = ?";
+
+        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, userId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1) > 0;
+                }
+            }
+        }
+        return false;
     }
 
 }

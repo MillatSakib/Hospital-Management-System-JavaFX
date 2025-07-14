@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="461.0" prefWidth="807.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Admin.UpdateRole.UpdateRoleController">
+<AnchorPane id="AnchorPane" prefHeight="461.0" prefWidth="807.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Admin.UpdateRole.UpdateRoleController">
     <stylesheets>
         <URL value="@updaterole.css" />
     </stylesheets>
@@ -17,7 +17,7 @@
          <font>
             <Font name="System Bold" size="32.0" />
          </font></Text>
-      <TableView fx:id="doctorApply" layoutX="19.0" layoutY="90.0" prefHeight="315.0" prefWidth="770.0">
+      <TableView fx:id="doctorApply" layoutX="19.0" layoutY="86.0" prefHeight="315.0" prefWidth="770.0">
         <columns>
           <TableColumn fx:id="name" prefWidth="169.0" text="Aplicant Name" />
           <TableColumn fx:id="id" prefWidth="81.0" text="Aplicant ID" />
@@ -28,12 +28,12 @@
             <TableColumn fx:id="address" prefWidth="154.0" text="Address" />
         </columns>
       </TableView>
-      <Button layoutX="268.0" layoutY="412.0" mnemonicParsing="false" onAction="#handleAproveDoctor" style="-fx-background-color: none; -fx-border-color: white; -fx-border-radius: 50px; -fx-padding: 10px 15px;" text="Aprove As Doctor">
+      <Button layoutX="268.0" layoutY="406.0" mnemonicParsing="false" onAction="#handleAproveDoctor" style="-fx-background-color: none; -fx-border-color: white; -fx-border-radius: 50px; -fx-padding: 10px 15px;" text="Aprove As Doctor">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <Button layoutX="426.0" layoutY="412.0" mnemonicParsing="false" onAction="#handleDeclineDoctor" style="-fx-background-color: none; -fx-border-color: white; -fx-border-radius: 50px; -fx-padding: 10px 15px;" text="Decline As Doctor">
+      <Button layoutX="426.0" layoutY="406.0" mnemonicParsing="false" onAction="#handleDeclineDoctor" style="-fx-background-color: none; -fx-border-color: white; -fx-border-radius: 50px; -fx-padding: 10px 15px;" text="Decline As Doctor">
          <font>
             <Font size="15.0" />
          </font>

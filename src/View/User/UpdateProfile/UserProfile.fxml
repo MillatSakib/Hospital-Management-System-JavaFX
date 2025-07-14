@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="464.0" prefWidth="807.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.User.UpdateProfile.UserProfileController">
+<AnchorPane id="AnchorPane" prefHeight="464.0" prefWidth="807.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.User.UpdateProfile.UserProfileController">
     <stylesheets>
         <URL value="@userprofile.css" />
     </stylesheets>
@@ -29,7 +29,7 @@
       <TextField fx:id="age" layoutX="258.0" layoutY="215.0" promptText="Enter Your Age" />
       <Text layoutX="259.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Age" />
       <Text layoutX="446.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gender" />
-      <Button layoutX="314.0" layoutY="272.0" mnemonicParsing="false" onAction="#handleUpdateProfile" text="UPDATE PROFILE" />
+      <Button layoutX="301.0" layoutY="273.0" mnemonicParsing="false" onAction="#handleUpdateProfile" text="UPDATE PROFILE" />
       <ComboBox fx:id="gender" layoutX="445.0" layoutY="215.0" prefWidth="150.0" promptText="Select Right One" />
       <Button fx:id="applyAsDoctorattr" layoutX="432.0" layoutY="272.0" mnemonicParsing="false" onAction="#applyAsDoctor" text="Apply As Doctor" />
    </children>

@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="464.0" prefWidth="812.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Patient.AllAppoinment.AllAppoinmentController">
+<AnchorPane id="AnchorPane" prefHeight="464.0" prefWidth="812.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Patient.AllAppoinment.AllAppoinmentController">
     <stylesheets>
         <URL value="@takebed.css" />
     </stylesheets>
@@ -17,7 +17,7 @@
             <Font name="System Bold" size="32.0" />
          </font>
       </Text>
-      <TableView fx:id="allAppoinment" layoutX="22.0" layoutY="94.0" prefHeight="362.0" prefWidth="766.0">
+      <TableView fx:id="allAppoinment" layoutX="22.0" layoutY="89.0" prefHeight="362.0" prefWidth="766.0">
         <columns>
           <TableColumn fx:id="doctorName" prefWidth="137.0" text="Doctor Name" />
           <TableColumn fx:id="doctorID" prefWidth="126.0" text="Doctor ID" />

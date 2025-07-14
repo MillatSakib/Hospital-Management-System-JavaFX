@@ -54,7 +54,7 @@ public class DoctorProfileController implements Initializable {
         if (updateValidation()) {
 
             MYSQLDatabaseOp updateUserData = new MYSQLDatabaseOp();
-            if (updateUserData.handleUpdateUserData(Doctor.getID(), updateName, updateAge, getGender, updateAddress, updatePhoneNumber)) {
+            if (updateUserData.handleUpdateUserData(Doctor.getID(), updateName, updateImgURL, updateAge, getGender, updateAddress, updatePhoneNumber)) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Your profile Updated Successfully!", ButtonType.OK);
                 alert.show();
             }

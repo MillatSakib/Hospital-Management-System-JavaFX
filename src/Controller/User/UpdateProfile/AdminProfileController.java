@@ -45,7 +45,7 @@ public class AdminProfileController implements Initializable {
         if (updateValidation()) {
 
             MYSQLDatabaseOp updateUserData = new MYSQLDatabaseOp();
-            if (updateUserData.handleUpdateUserData(Admin.getID(), updateName, updateAge, getGender, updateAddress, updatePhoneNumber)) {
+            if (updateUserData.handleUpdateUserData(Admin.getID(), updateName,updateImgURL, updateAge, getGender, updateAddress, updatePhoneNumber)) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Your profile Updated Successfully!", ButtonType.OK);
                 alert.show();
             }

@@ -8,6 +8,7 @@ import Controller.Main;
 import Controller.Patient.BaseUIController;
 import Model.MYSQLDatabaseOp;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
@@ -56,7 +57,7 @@ public class UserProfileController implements Initializable {
         if (updateValidation()) {
 
             MYSQLDatabaseOp updateUserData = new MYSQLDatabaseOp();
-            if (updateUserData.handleUpdateUserData(User.getID(), updateName, updateAge, getGender, null, updatePhoneNumber)) {
+            if (updateUserData.handleUpdateUserData(User.getID(), updateName, updateImgURL, updateAge, getGender, null, updatePhoneNumber)) {
                 User.setName(updateName);
                 User.setImageURL(updateImgURL);
                 User.setPhone(updatePhoneNumber);
@@ -148,15 +149,28 @@ public class UserProfileController implements Initializable {
         String updateGmail = email.getText();
         String updateAge = age.getText();
         String updateGetGender = gender.getValue();
-        if("".equals(updateName) || updateName == null || "".equals(updateGmail) || updateGmail == null ||"".equals(updateAge) || updateAge == null || "".equals(updateGetGender) || updateGetGender == null){
-        applyAsDoctorattr.setDisable(true);
+
+        MYSQLDatabaseOp database = new MYSQLDatabaseOp();
+        boolean hasApplied = false;
+        try {
+            hasApplied = database.hasAppliedAsDoctor(User.getID());
+        } catch (SQLException ex) {
+            System.err.println("Error checking doctor application status: " + ex.getMessage());
+            // Handle the exception appropriately, perhaps by logging it or showing an error to the user
+        }
+
+        if (hasApplied || "".equals(updateName) || updateName == null || "".equals(updateGmail) || updateGmail == null || "".equals(updateAge) || updateAge == null || "".equals(updateGetGender) || updateGetGender == null) {
+            applyAsDoctorattr.setDisable(true);
+            if (hasApplied) {
+                applyAsDoctorattr.setText("Already Applied");
+            } else {
+                applyAsDoctorattr.setText("Fill all required fields to apply");
+            }
+        } else {
+            applyAsDoctorattr.setDisable(false);
             applyAsDoctorattr.setText("Apply As A Doctor");
         }
         
-        if (Main.DoctorID.length() > 0) {
-            applyAsDoctorattr.setDisable(true);
-            applyAsDoctorattr.setText("Already Applied");
-        }
     }
 
 }
