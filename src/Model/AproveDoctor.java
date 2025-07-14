@@ -17,8 +17,10 @@ public class AproveDoctor {
     String gender;
     String phone;
     String address;
+    String specializationId;
+    String doctorCode;
 
-    AproveDoctor(String name, String id, String email, String age, String gender, String phone, String address) {
+    AproveDoctor(String name, String id, String email, String age, String gender, String phone, String address, String specializationId, String doctorCode) {
         this.name = name;
         this.id = id;
         this.email = email;
@@ -26,6 +28,8 @@ public class AproveDoctor {
         this.gender = gender;
         this.phone = phone;
         this.address = address;
+        this.specializationId = specializationId;
+        this.doctorCode = doctorCode;
     }
 
     public String getName() {
@@ -82,6 +86,22 @@ public class AproveDoctor {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getSpecializationId() {
+        return specializationId;
+    }
+
+    public void setSpecializationId(String specializationId) {
+        this.specializationId = specializationId;
+    }
+
+    public String getDoctorCode() {
+        return doctorCode;
+    }
+
+    public void setDoctorCode(String doctorCode) {
+        this.doctorCode = doctorCode;
     }
 
 }

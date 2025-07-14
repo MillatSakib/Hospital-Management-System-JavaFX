@@ -446,8 +446,10 @@ public class MYSQLDatabaseOp {
                 String gender = resultSet.getString("Gender");
                 String phone = resultSet.getString("ContactNumber");
                 String address = resultSet.getString("Address");
+                String specializationId = resultSet.getString("SpecializationID");
+                String doctorCode = resultSet.getString("DoctorCode");
 
-                appliedDoctor.add(new AproveDoctor(name, Id, email, age, gender, phone, address));
+                appliedDoctor.add(new AproveDoctor(name, Id, email, age, gender, phone, address, specializationId, doctorCode));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -621,6 +623,38 @@ public class MYSQLDatabaseOp {
         }
         return patientList;
  
+    }
+
+    public boolean deleteNewDoctorApplication(int userId) throws SQLException {
+        String dbName = "hospital-manament-system";
+        String fullURL = URL + "/" + dbName;
+        String deleteQuery = "DELETE FROM NewDoctor WHERE UserID = ?";
+
+        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); PreparedStatement statement = connection.prepareStatement(deleteQuery)) {
+            statement.setInt(1, userId);
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Error occurred while deleting new doctor application: " + e.getMessage(), e);
+        }
+    }
+
+    public boolean addNewDoctor(int userId, int specializationId, String doctorCode) throws SQLException {
+        String dbName = "hospital-manament-system";
+        String fullURL = URL + "/" + dbName;
+        String insertQuery = "INSERT INTO Doctors (UserID, SpecializationID, DoctorCode) VALUES (?, ?, ?)";
+
+        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD); PreparedStatement statement = connection.prepareStatement(insertQuery)) {
+            statement.setInt(1, userId);
+            statement.setInt(2, specializationId);
+            statement.setString(3, doctorCode);
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Error occurred while adding new doctor: " + e.getMessage(), e);
+        }
     }
 
 }
