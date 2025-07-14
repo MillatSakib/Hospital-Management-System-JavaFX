@@ -14,12 +14,23 @@ public class GivePrescription {
     String Age;
     String Prolblem;
     String PatientID;
-    GivePrescription(String PatientName, String Gender, String Age, String Problem, String PatientID){
-    this.PatientName = PatientName;
-    this.Gender = Gender;
-    this.Age = Age;
-    this.Prolblem = Problem;
-    this.PatientID = PatientID;
+    int appointmentID;
+
+    public GivePrescription(String PatientName, String Gender, String Age, String Problem, String PatientID, int appointmentID) {
+        this.PatientName = PatientName;
+        this.Gender = Gender;
+        this.Age = Age;
+        this.Prolblem = Problem;
+        this.PatientID = PatientID;
+        this.appointmentID = appointmentID;
+    }
+
+    public int getAppointmentID() {
+        return appointmentID;
+    }
+
+    public void setAppointmentID(int appointmentID) {
+        this.appointmentID = appointmentID;
     }
 
     public String getPatientID() {

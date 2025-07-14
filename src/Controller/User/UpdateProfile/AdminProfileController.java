@@ -44,9 +44,8 @@ public class AdminProfileController implements Initializable {
 
         if (updateValidation()) {
 
-            String query = "UPDATE users SET Name='" + updateName + "', ImageURL='" + updateImgURL + "', ContactNumber='" + updatePhoneNumber + "', Email='" + updateGmail + "', Gender='" + getGender + "', Age='" + updateAge + "', Address='" + updateAddress + "' where ID=" + Admin.getID() + "";
             MYSQLDatabaseOp updateUserData = new MYSQLDatabaseOp();
-            if (updateUserData.handleUpdateUserData(query)) {
+            if (updateUserData.handleUpdateUserData(Admin.getID(), updateName,updateImgURL, updateAge, getGender, updateAddress, updatePhoneNumber)) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Your profile Updated Successfully!", ButtonType.OK);
                 alert.show();
             }

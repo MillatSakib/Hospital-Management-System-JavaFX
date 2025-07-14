@@ -107,6 +107,8 @@ src/
 
 ## Setup & Run:
 
+**Windows:**
+
 - **IDE:** You can use Apache Netbeans 23 IDE for run this project.
 - Pre-requisite:
 
@@ -128,3 +130,31 @@ src/
     ```
 
 If your environment are ready like I say then you can run the application. The `main` method are available inside `/src/Controller/Main.java` and from here you have to run the program.
+
+**Linux**
+
+For linux you can follow the same procedure. But as the folder structure are different on Linux. That's why if you face trouble then follow me.
+
+- Af frist you have to install scene builder. You can download scenebuilder from [here](https://1024terabox.com/s/10wvnhlkkJ5w5EUwXvENrhw). After downloading you have to install scence builder. So open terminal on scenebuilder directory and execute the command below:
+
+```sh
+sudo dpkg -i SceneBuilder-24.0.1.deb
+```
+
+Then you have to confrigure the netbeans for scene Builder. For this go to `Tool->Option`. Then select `Java`. There you get `JavaFX` tab, select that. From There you get Scene Builder path option. Select the path `/opt/scenebuilder` from there.
+
+- Now. You will have to install JavaFX JDK. For that you can download the `JDK FX` from Zulu or azul. Or directly download from here [Here](https://1024terabox.com/s/1gjU2Zv5hqbKqVaKkX9PWlQ). Then you have to install the JDK using the command below.
+
+```sh
+sudo dpkg -i zulu24.30.13-ca-fx-jdk24.0.1-linux_amd64.deb
+```
+
+After installing it you have to add it on netbeans. For that Go to `Tools->Java Platform`. From there add platform add the JDK from the path `/usr/lib/jvm/zulu-fx-24-amd64`
+
+Now you have to install MySQL driver. For that you have to download the MySQL driver. You can download it from [here](https://1024terabox.com/s/1nwA6Apgp1JKYTUtpMMJYGg). After downloading install it using the command below:
+
+```sql
+sudo dpkg -i mysql-connector-j_9.3.0-1ubuntu24.04_all.deb
+```
+
+Then you have to connect the driver on NetBeans. For that Go to `Tools->Libraries->Add Library`. Then drop a name `MYSQL` here and click enter. Then click on `Add JAR/folder` and go to `/usr/share/java/` and add all jar file on class path.

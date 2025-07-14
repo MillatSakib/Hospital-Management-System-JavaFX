@@ -36,7 +36,7 @@ public class Main extends Application {
             return;
         }
         MYSQLDatabaseOp dbOp = new MYSQLDatabaseOp();
-        dbOp.handleQueryLogin("SELECT * FROM users where email='" + fileEmail + "' AND Password='" + filePassword + "'");
+        dbOp.handleQueryLogin(fileEmail, filePassword);
     }
 
     private void autoLogin() {

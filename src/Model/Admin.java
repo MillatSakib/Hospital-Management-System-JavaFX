@@ -10,8 +10,8 @@ package Model;
  */
 public class Admin extends User {
     protected static String Address="";
-    public Admin(int ID, String Name, String Role, String ImageURL, String Email, String Password, String Phone, String Age, String Gender,String Address) {
-        super(ID, Name, Role, ImageURL, Email, Password, Phone, Age, Gender);
+    public Admin(int ID, String Name, String ImageURL, String Email, String Password, String Phone, String Age, String Gender,String Address) {
+        super(ID, Name, ImageURL, Email, Password, Phone, Age, Gender);
         Admin.Address = Address;
     }
     
@@ -21,7 +21,6 @@ public class Admin extends User {
     ID=0;
     Address = "";
     Name = "";
-    Role = "";
     ImageURL ="";
     Email = "";
     Password = "";
@@ -48,14 +47,6 @@ public class Admin extends User {
 
     public static void setName(String Name) {
         User.Name = Name;
-    }
-
-    public static String getRole() {
-        return Role;
-    }
-
-    public static void setRole(String Role) {
-        User.Role = Role;
     }
 
     public static String getImageURL() {

@@ -54,9 +54,8 @@ public class AllAppoinmentController implements Initializable {
         contactNumber.setCellValueFactory(new PropertyValueFactory<>("ContactNumber"));
         
         MYSQLDatabaseOp database = new MYSQLDatabaseOp();
-        String query = "SELECT * FROM appoinmentdetails WHERE PatientID='"+User.getID()+"'";
          try {
-        ObservableList<AllAppoinment> allappoinment = database.allAppoinmentPatient(query);
+        ObservableList<AllAppoinment> allappoinment = database.allAppoinmentPatient(User.getID());
         allAppoinment.setItems(allappoinment);
        
     } catch (SQLException ex) {

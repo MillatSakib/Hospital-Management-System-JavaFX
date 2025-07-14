@@ -5,17 +5,17 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="223.0" prefWidth="167.0" style="-fx-background-color: none;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Doctor.BaseFeatureController">
+<AnchorPane id="AnchorPane" prefHeight="223.0" prefWidth="167.0" style="-fx-background-color: none;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Doctor.BaseFeatureController">
     <stylesheets>
         <URL value="@basefeature.css" />
     </stylesheets>
    <children>
-      <Button layoutX="2.0" mnemonicParsing="false" onAction="#handleSceneAllPatients" prefHeight="52.0" prefWidth="159.0" style="-fx-background-color: none; -fx-cursor: pointer; -fx-border-color: white; -fx-border-radius: 50px;" text="All Patients" textFill="WHITE">
+      <Button layoutX="2.0" layoutY="22.0" mnemonicParsing="false" onAction="#handleSceneAllPatients" prefHeight="52.0" prefWidth="159.0" style="-fx-background-color: none; -fx-cursor: pointer; -fx-border-color: white; -fx-border-radius: 50px;" text="All Patients" textFill="WHITE">
          <font>
             <Font name="System Bold" size="17.0" />
          </font>
       </Button>
-      <Button layoutX="4.0" layoutY="58.0" mnemonicParsing="false" onAction="#handleSceneAllPrescription" prefHeight="52.0" prefWidth="159.0" style="-fx-background-color: none; -fx-cursor: pointer; -fx-border-color: white; -fx-border-radius: 50px;" text="Give Prescription" textFill="WHITE">
+      <Button layoutX="4.0" layoutY="80.0" mnemonicParsing="false" onAction="#handleSceneAllPrescription" prefHeight="52.0" prefWidth="159.0" style="-fx-background-color: none; -fx-cursor: pointer; -fx-border-color: white; -fx-border-radius: 50px;" text="Give Prescription" textFill="WHITE">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>

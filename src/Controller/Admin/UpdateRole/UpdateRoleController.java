@@ -36,11 +36,14 @@ public class UpdateRoleController implements Initializable {
             return;
         }
         String id = selectAproveDoctor.getId();
-        String query = "UPDATE users set Role='doctor' WHERE ID='" + id + "'";
+        String specializationId = selectAproveDoctor.getSpecializationId();
+        String doctorCode = selectAproveDoctor.getDoctorCode();
         try {
             MYSQLDatabaseOp database = new MYSQLDatabaseOp();
-            boolean updateFlag = database.handleUpdateRole(query);
-            if (updateFlag == true) {
+            boolean updateFlag = database.handleUpdateRole(Integer.parseInt(id), "doctor");
+            boolean addDoctorFlag = database.addNewDoctor(Integer.parseInt(id), Integer.parseInt(specializationId), doctorCode);
+            boolean deleteFlag = database.deleteNewDoctorApplication(Integer.parseInt(id));
+            if (updateFlag == true && addDoctorFlag == true && deleteFlag == true) {
                 loadUser();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Aproved Sucessfully", ButtonType.OK);
                 alert.show();
@@ -63,11 +66,11 @@ public class UpdateRoleController implements Initializable {
             return;
         }
         String id = selectAproveDoctor.getId();
-        String query = "UPDATE users set Role='user', DoctorID='', Specialization=''  WHERE ID='" + id + "'";
         try {
             MYSQLDatabaseOp database = new MYSQLDatabaseOp();
-            boolean updateFlag = database.handleUpdateRole(query);
-            if (updateFlag == true) {
+            boolean updateFlag = database.handleUpdateRole(Integer.parseInt(id), "user");
+            boolean deleteFlag = database.deleteNewDoctorApplication(Integer.parseInt(id));
+            if (updateFlag == true && deleteFlag == true) {
                 loadUser();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Declined Sucessfully", ButtonType.OK);
                 alert.show();
@@ -83,9 +86,8 @@ public class UpdateRoleController implements Initializable {
 
     void loadUser() {
         MYSQLDatabaseOp database = new MYSQLDatabaseOp();
-        String query = "Select * FROM users WHERE Role!='doctor' AND DoctorID IS NOT NULL AND DoctorID!=''";
         try {
-            ObservableList<AproveDoctor> appplyDoctor = database.allDoctorApply(query);
+            ObservableList<AproveDoctor> appplyDoctor = database.allDoctorApply();
             doctorApply.setItems(appplyDoctor);
         } catch (SQLException e) {
             System.out.println(e);

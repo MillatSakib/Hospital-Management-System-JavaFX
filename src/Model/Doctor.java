@@ -14,8 +14,8 @@ public class Doctor extends User {
     protected static String DoctorID="";
     protected static String Address = "";
     
-    public Doctor(int ID, String Name, String Role, String ImageURL, String Email, String Password, String Phone, String Age, String Gender, String Specialization, String DoctorID, String Address) {
-        super(ID, Name, Role, ImageURL, Email, Password, Phone, Age, Gender);
+    public Doctor(int ID, String Name, String ImageURL, String Email, String Password, String Phone, String Age, String Gender, String Specialization, String DoctorID, String Address) {
+        super(ID, Name, ImageURL, Email, Password, Phone, Age, Gender);
         Doctor.Specialization = Specialization;
         Doctor.DoctorID = DoctorID;
         Doctor.Address = Address;
@@ -24,7 +24,6 @@ public class Doctor extends User {
      public static void resetDoctor(){
     ID=0;
     Name = "";
-    Role = "";
     ImageURL = "";
     Email ="";
     Password = "";

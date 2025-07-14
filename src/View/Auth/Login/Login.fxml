@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="557.0" prefWidth="514.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Auth.Login.LoginController">
+<AnchorPane id="AnchorPane" prefHeight="557.0" prefWidth="514.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Auth.Login.LoginController">
     <stylesheets>
         <URL value="@login.css" />
     </stylesheets>
@@ -36,7 +36,7 @@
             <Font size="14.0" />
          </font>
       </Text>
-      <TextField fx:id="emailField" layoutX="126.0" layoutY="226.0" onKeyPressed="#handleChange" prefHeight="31.0" prefWidth="249.0" promptText="example@hospital.com" styleClass="rounded-border" />
+      <TextField fx:id="emailField" layoutX="126.0" layoutY="226.0" onKeyPressed="#handleChange" prefHeight="31.0" prefWidth="249.0" promptText="example@hospital.com" styleClass="rounded-border" text="ohi@gmail.com" />
       <Text fill="WHITE" layoutX="126.0" layoutY="283.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
          <font>
             <Font size="14.0" />
@@ -51,12 +51,12 @@
             <Font size="14.0" />
          </font>
       </Text>
-      <Text fill="WHITE" layoutX="282.0" layoutY="427.0" onMouseClicked="#handleRegister" strokeType="OUTSIDE" strokeWidth="0.0" text="Register Now" underline="true">
+      <Text fill="WHITE" layoutX="291.0" layoutY="427.0" onMouseClicked="#handleRegister" strokeType="OUTSIDE" strokeWidth="0.0" text="Register Now" underline="true">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <PasswordField fx:id="passField" layoutX="125.0" layoutY="294.0" onKeyPressed="#handleChange" prefHeight="31.0" prefWidth="249.0" promptText="******" styleClass="rounded-border" />
+      <PasswordField fx:id="passField" layoutX="125.0" layoutY="294.0" onKeyPressed="#handleChange" prefHeight="31.0" prefWidth="249.0" promptText="******" styleClass="rounded-border" text="123456" />
       <Label fx:id="setText" layoutX="157.0" layoutY="439.0" textFill="#fff600">
          <font>
             <Font name="System Bold" size="16.0" />

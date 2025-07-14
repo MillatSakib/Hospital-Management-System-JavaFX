@@ -45,13 +45,7 @@ public class AppoinmentController implements Initializable {
             return;
         }
         MYSQLDatabaseOp dbOp = new MYSQLDatabaseOp();
-        String query;
-        if("doctor".equals(Main.role)){
-         query = "SELECT * FROM users WHERE Specialization='" + selectedValue + "' AND DoctorID!='"+Doctor.getDoctorID()+"' AND Role='doctor'";
-        }else{
-         query = "SELECT * FROM users WHERE Specialization='" + selectedValue + "' AND Role='doctor'";
-        }
-        ObservableList<AppoinmentDoctorList> doctors = dbOp.handleNeededDoctor(query);
+        ObservableList<AppoinmentDoctorList> doctors = dbOp.handleNeededDoctor(selectedValue);
         doctorTableView.setItems(doctors);
     }
 
@@ -65,7 +59,7 @@ public class AppoinmentController implements Initializable {
         }
 
         MYSQLDatabaseOp database = new MYSQLDatabaseOp();
-        boolean success = database.bookAppointment(User.getName(), selectedDoctor.nameProperty().get(), User.getID(), selectedDoctor.idProperty().get(), getProblem.getText());
+        boolean success = database.bookAppointment(User.getID(), selectedDoctor.getDoctorId(), getProblem.getText());
         if (success) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Operation Completed");

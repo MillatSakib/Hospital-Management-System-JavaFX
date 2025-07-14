@@ -61,13 +61,10 @@ public class GivePrescriptionController implements Initializable {
             return;
         }
         System.out.println(selectPatient.getPatientID() + " " + getPrescription);
-        String query = "UPDATE appoinmentdetails SET Prescription='" + getPrescription + "', Visited=1 WHERE PatientID='" + selectPatient.getPatientID() + "'";
-        System.out.println(query);
         MYSQLDatabaseOp database = new MYSQLDatabaseOp();
-        boolean response = database.givePrescription(query);
+        boolean response = database.givePrescription(selectPatient.getAppointmentID(), getPrescription);
         if (response) {
-            String query2 = "SELECT * FROM appoinmentdetails WHERE DoctorID='" + Doctor.getDoctorID() + "' AND Visited=0";
-            getAllAppoinment = database.handleAllAppoinmentForDoctor(query2);
+            getAllAppoinment = database.handleAllAppoinmentForDoctor(Doctor.getID());
             appoinmentPatientList.setItems(getAllAppoinment);
             prescription.setText("");
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Prescrition submitted successfully!", ButtonType.OK);
@@ -93,8 +90,7 @@ public class GivePrescriptionController implements Initializable {
         problem.setCellValueFactory(new PropertyValueFactory<>("Prolblem"));
         MYSQLDatabaseOp database = new MYSQLDatabaseOp();
         try {
-            String query = "SELECT * FROM appoinmentdetails WHERE DoctorID='" + Doctor.getDoctorID() + "' AND Visited=0";
-            getAllAppoinment = database.handleAllAppoinmentForDoctor(query);
+            getAllAppoinment = database.handleAllAppoinmentForDoctor(Doctor.getID());
             appoinmentPatientList.setItems(getAllAppoinment);
         } catch (Exception e) {
             System.out.println(e);

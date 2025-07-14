@@ -54,9 +54,8 @@ private TableColumn<AllPrescription, String> doctorPrescription;
         
         
         MYSQLDatabaseOp database = new MYSQLDatabaseOp();
-         String query = "SELECT * FROM appoinmentdetails WHERE Email='"+User.getEmail()+"' AND Visited='"+1+"'";
     try {
-        ObservableList<AllPrescription> prescriptions = database.prescriptions(query);
+        ObservableList<AllPrescription> prescriptions = database.prescriptions(User.getID());
         AllPrescriptionTable.setItems(prescriptions);
     } catch (SQLException ex) {
         Logger.getLogger(PrescriptionController.class.getName()).log(Level.SEVERE, null, ex);
