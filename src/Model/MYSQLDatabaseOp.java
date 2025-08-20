@@ -56,8 +56,10 @@ public class MYSQLDatabaseOp {
                     while (resultSet.next()) {
                         String columnValue = resultSet.getString(1);
                         System.out.println("Column Value: " + columnValue);
+                        
                     }
                     System.out.println("Fulldata" + resultSet.getString(1));
+                    
                 }
             } else {
                 int affectedRows = statement.executeUpdate();
@@ -75,6 +77,29 @@ public class MYSQLDatabaseOp {
             e.printStackTrace();
         }
     }
+    
+
+    
+    public int intigerValueRetun(String query) {
+        String dbName = "hospital-manament-system";
+     String fullURL = URL + "/" + dbName;
+    try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD);
+         PreparedStatement statement = connection.prepareStatement(query);
+         ResultSet resultSet = statement.executeQuery()) {
+
+        if (resultSet.next()) {
+            
+            return resultSet.getInt(1);
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return 3;
+}
+
+    
+    
     public void handleQueryLogin(String email, String password) throws Exception {
         String dbName = "hospital-manament-system";
         String fullURL = URL + "/" + dbName;
@@ -343,76 +368,91 @@ public class MYSQLDatabaseOp {
         }
         return allUserList;
     }
+    
+public boolean handleRemoveUser(int userId) throws SQLException {
+    String dbName = "hospital-manament-system";
+    String fullURL = URL + "/" + dbName;
 
-    public boolean handleRemoveUser(int userId) throws SQLException {
-        String dbName = "hospital-manament-system";
-        String fullURL = URL + "/" + dbName;
-        String deleteUserQuery = "DELETE FROM Users WHERE UserID = ?";
-        String deleteDoctorQuery = "DELETE FROM Doctors WHERE UserID = ?";
-        String deletePatientQuery = "DELETE FROM Patients WHERE UserID = ?";
-        String getPatientIdQuery = "SELECT PatientID FROM Patients WHERE UserID = ?";
-        String getAppointmentsQuery = "SELECT AppointmentID FROM Appointments WHERE PatientID = ?";
-        String deletePrescriptionsQuery = "DELETE FROM Prescriptions WHERE AppointmentID = ?";
-        String deleteAppointmentsQuery = "DELETE FROM Appointments WHERE PatientID = ?";
+    String deleteUserQuery = "DELETE FROM Users WHERE UserID = ?";
+    String deleteDoctorQuery = "DELETE FROM Doctors WHERE UserID = ?";
+    String deletePatientQuery = "DELETE FROM Patients WHERE UserID = ?";
+    String getPatientIdQuery = "SELECT PatientID FROM Patients WHERE UserID = ?";
+    String getAppointmentsQuery = "SELECT AppointmentID FROM Appointments WHERE PatientID = ?";
+    String deletePrescriptionsQuery = "DELETE FROM Prescriptions WHERE AppointmentID = ?";
+    String deleteAppointmentsQuery = "DELETE FROM Appointments WHERE PatientID = ?";
+    String deleteBillingQuery = "DELETE FROM Billing WHERE AppointmentID = ?";
 
+    try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD)) {
+        connection.setAutoCommit(false);
+        try {
+            int patientId = -1;
 
-        try (Connection connection = DriverManager.getConnection(fullURL, USERNAME, PASSWORD)) {
-            connection.setAutoCommit(false);
-            try{
-                int patientId = -1;
-                try (PreparedStatement getPatientIdStmt = connection.prepareStatement(getPatientIdQuery)) {
-                    getPatientIdStmt.setInt(1, userId);
-                    ResultSet rs = getPatientIdStmt.executeQuery();
-                    if (rs.next()) {
-                        patientId = rs.getInt("PatientID");
-                    }
+            // get patientId
+            try (PreparedStatement stmt = connection.prepareStatement(getPatientIdQuery)) {
+                stmt.setInt(1, userId);
+                ResultSet rs = stmt.executeQuery();
+                if (rs.next()) {
+                    patientId = rs.getInt("PatientID");
                 }
+            }
 
-                if (patientId != -1) {
-                    try (PreparedStatement getAppointmentsStmt = connection.prepareStatement(getAppointmentsQuery)) {
-                        getAppointmentsStmt.setInt(1, patientId);
-                        ResultSet rs = getAppointmentsStmt.executeQuery();
-                        while (rs.next()) {
-                            int appointmentId = rs.getInt("AppointmentID");
-                            try (PreparedStatement deletePrescriptionsStmt = connection.prepareStatement(deletePrescriptionsQuery)) {
-                                deletePrescriptionsStmt.setInt(1, appointmentId);
-                                deletePrescriptionsStmt.executeUpdate();
-                            }
+            if (patientId != -1) {
+                // get all appointmentIds for this patient
+                try (PreparedStatement stmt = connection.prepareStatement(getAppointmentsQuery)) {
+                    stmt.setInt(1, patientId);
+                    ResultSet rs = stmt.executeQuery();
+                    while (rs.next()) {
+                        int appointmentId = rs.getInt("AppointmentID");
+
+                        // delete Billing first
+                        try (PreparedStatement deleteBillingStmt = connection.prepareStatement(deleteBillingQuery)) {
+                            deleteBillingStmt.setInt(1, appointmentId);
+                            deleteBillingStmt.executeUpdate();
+                        }
+
+                        // delete Prescriptions
+                        try (PreparedStatement deletePrescriptionsStmt = connection.prepareStatement(deletePrescriptionsQuery)) {
+                            deletePrescriptionsStmt.setInt(1, appointmentId);
+                            deletePrescriptionsStmt.executeUpdate();
                         }
                     }
-
-                    try (PreparedStatement deleteAppointmentsStmt = connection.prepareStatement(deleteAppointmentsQuery)) {
-                        deleteAppointmentsStmt.setInt(1, patientId);
-                        deleteAppointmentsStmt.executeUpdate();
-                    }
                 }
 
-                try (PreparedStatement deleteDoctorStmt = connection.prepareStatement(deleteDoctorQuery)) {
-                    deleteDoctorStmt.setInt(1, userId);
-                    deleteDoctorStmt.executeUpdate();
+                // then delete Appointments
+                try (PreparedStatement deleteAppointmentsStmt = connection.prepareStatement(deleteAppointmentsQuery)) {
+                    deleteAppointmentsStmt.setInt(1, patientId);
+                    deleteAppointmentsStmt.executeUpdate();
                 }
-
-                try (PreparedStatement deletePatientStmt = connection.prepareStatement(deletePatientQuery)) {
-                    deletePatientStmt.setInt(1, userId);
-                    deletePatientStmt.executeUpdate();
-                }
-
-                try (PreparedStatement deleteUserStmt = connection.prepareStatement(deleteUserQuery)) {
-                    deleteUserStmt.setInt(1, userId);
-                    int rowsAffected = deleteUserStmt.executeUpdate();
-                    connection.commit();
-                    return rowsAffected > 0;
-                }
-            } catch (SQLException e) {
-                connection.rollback();
-                throw e;
             }
+
+            // delete from Doctors
+            try (PreparedStatement stmt = connection.prepareStatement(deleteDoctorQuery)) {
+                stmt.setInt(1, userId);
+                stmt.executeUpdate();
+            }
+
+            // delete from Patients
+            try (PreparedStatement stmt = connection.prepareStatement(deletePatientQuery)) {
+                stmt.setInt(1, userId);
+                stmt.executeUpdate();
+            }
+
+            // finally delete User
+            int rowsAffected;
+            try (PreparedStatement stmt = connection.prepareStatement(deleteUserQuery)) {
+                stmt.setInt(1, userId);
+                rowsAffected = stmt.executeUpdate();
+            }
+
+            connection.commit();
+            return rowsAffected > 0;
+
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new SQLException("Error occurred while removing user: " + e.getMessage(), e);
+            connection.rollback();
+            throw e;
         }
     }
-
+}
     public boolean handleUpdateRole(int userId, String roleName) throws SQLException {
         String dbName = "hospital-manament-system";
         String fullURL = URL + "/" + dbName;
