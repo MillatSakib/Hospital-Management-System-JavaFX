@@ -8,12 +8,17 @@ import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;   // ✅ Import Scene
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class RemoveUserController implements Initializable {
 
@@ -29,23 +34,29 @@ public class RemoveUserController implements Initializable {
     private TableColumn<RemoveUserContainer, String> contactNumber;
 
     @FXML
+    private void handleOpenDashboard(ActionEvent e) {
+        HospitalDashboard dashboard = new HospitalDashboard();
+        dashboard.showDashboard((Stage) ((javafx.scene.Node) e.getSource()).getScene().getWindow());
+    }
+
+    @FXML
     private void handleRmoveUser(ActionEvent e) {
         RemoveUserContainer selectedUser = removeUserTable.getSelectionModel().getSelectedItem();
         MYSQLDatabaseOp database = new MYSQLDatabaseOp();
-        
-        if(selectedUser == null){
-        Alert alert = new Alert(Alert.AlertType.ERROR, "Please Select an user!", ButtonType.OK);
-        alert.show();
-        return;
+
+        if (selectedUser == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Please Select a user!", ButtonType.OK);
+            alert.show();
+            return;
         }
+
         String ID = selectedUser.getID();
         try {
             boolean deleteUserFlag = database.handleRemoveUser(Integer.parseInt(ID));
-            if (deleteUserFlag == true) {
+            if (deleteUserFlag) {
                 loadUser();
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Deleted Sucessfully", ButtonType.OK);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Deleted Successfully", ButtonType.OK);
                 alert.show();
-
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "User not Found", ButtonType.OK);
                 alert.show();
@@ -65,18 +76,12 @@ public class RemoveUserController implements Initializable {
         }
     }
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
         userName.setCellValueFactory(new PropertyValueFactory<>("name"));
         userID.setCellValueFactory(new PropertyValueFactory<>("ID"));
         role.setCellValueFactory(new PropertyValueFactory<>("role"));
         contactNumber.setCellValueFactory(new PropertyValueFactory<>("contactNumber"));
         loadUser();
-
     }
-
 }

@@ -17,7 +17,7 @@
          <font>
             <Font size="15.0" />
          </font></Button>
-      <Text layoutX="307.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remove User">
+      <Text layoutX="307.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remove Users">
          <font>
             <Font name="System Bold" size="32.0" />
          </font>
@@ -30,5 +30,6 @@
             <TableColumn fx:id="contactNumber" prefWidth="235.0" text="Contact Number" />
         </columns>
       </TableView>
+      <Button layoutX="673.0" layoutY="27.0" mnemonicParsing="false" onAction="#handleOpenDashboard" text="See Dashboard" />
    </children>
 </AnchorPane>

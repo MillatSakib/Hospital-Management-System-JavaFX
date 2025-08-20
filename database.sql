@@ -332,3 +332,56 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+    
+
+    
+    CREATE TABLE
+    `Departments` (
+        `DepartmentID` INT (11) NOT NULL AUTO_INCREMENT,
+        `DepartmentName` VARCHAR(50) NOT NULL,
+        PRIMARY KEY (`DepartmentID`)
+    );
+    
+CREATE TABLE
+    `Rooms` (
+        `RoomID` INT (11) NOT NULL AUTO_INCREMENT,
+        `RoomNumber` VARCHAR(10) NOT NULL,
+        `RoomType` VARCHAR(20) DEFAULT NULL, -- e.g. "ICU", "General", "Private"
+        `IsAvailable` TINYINT (1) DEFAULT 1,
+        PRIMARY KEY (`RoomID`)
+    );
+    
+CREATE TABLE
+    `LabTests` (
+        `LabTestID` INT (11) NOT NULL AUTO_INCREMENT,
+        `TestName` VARCHAR(100) NOT NULL,
+        `TestDescription` VARCHAR(500) DEFAULT NULL,
+        PRIMARY KEY (`LabTestID`)
+    );
+
+CREATE TABLE
+    `LabTestResults` (
+        `ResultID` INT (11) NOT NULL AUTO_INCREMENT,
+        `PatientID` INT (11) NOT NULL,
+        `LabTestID` INT (11) NOT NULL,
+        `DoctorID` INT (11) DEFAULT NULL,
+        `ResultText` VARCHAR(5000) DEFAULT NULL,
+        `TestDate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+        PRIMARY KEY (`ResultID`),
+        FOREIGN KEY (`PatientID`) REFERENCES `Patients` (`PatientID`),
+        FOREIGN KEY (`LabTestID`) REFERENCES `LabTests` (`LabTestID`),
+        FOREIGN KEY (`DoctorID`) REFERENCES `Doctors` (`DoctorID`)
+    );
+    
+    CREATE TABLE
+    `Billing` (
+        `BillID` INT (11) NOT NULL AUTO_INCREMENT,
+        `PatientID` INT (11) NOT NULL,
+        `AppointmentID` INT (11) DEFAULT NULL,
+        `Amount` DECIMAL(10, 2) NOT NULL,
+        `Paid` TINYINT (1) DEFAULT 0,
+        `BillDate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+        PRIMARY KEY (`BillID`),
+        FOREIGN KEY (`PatientID`) REFERENCES `Patients` (`PatientID`),
+        FOREIGN KEY (`AppointmentID`) REFERENCES `Appointments` (`AppointmentID`)
+    );
